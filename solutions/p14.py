@@ -22,9 +22,11 @@ max_n = 0
 for n in range(1, 10000001):
     initial_n = n
     count = 0
+    chain = [initial_n]
     while n != 1:
         n = collatz(n)
         count += 1
+        chain.append(n)
         if n in memo:
             count += memo[n]
             break
@@ -33,5 +35,9 @@ for n in range(1, 10000001):
         max_count = count
 
     # Update memo
-    memo[initial_n] = count
+    for val in chain:
+        if val in memo:
+            break
+        memo[val] = count
+        count-=1
 print(max_n)
