@@ -15,7 +15,7 @@ $$1, 3, 6, 10, 15, 21, 28, 36, 45, 55, \dots$$</p>
 from euler import get_prime_factorization
 
 def get_triangular_number(n):
-    return (n*n+1)//2
+    return (n*(n+1))//2
 
 def get_num_of_divisors(n):
     """
@@ -33,7 +33,8 @@ print(get_num_of_divisors(36))
 i=1
 while True:
     x = get_triangular_number(i)
-    if get_num_of_divisors(x) > 500:
+    n= get_num_of_divisors(x)
+    if n > 500:
         print(x)
         break
     i += 1
