@@ -16,15 +16,22 @@ def collatz(n):
         return n * 3 + 1
 
 
+memo = {}
 max_count = 0
 max_n = 0
-for n in range(1, 1000001):
+for n in range(1, 10000001):
     initial_n = n
     count = 0
     while n != 1:
         n = collatz(n)
         count += 1
+        if n in memo:
+            count += memo[n]
+            break
     if count > max_count:
         max_n = initial_n
         max_count = count
+
+    # Update memo
+    memo[initial_n] = count
 print(max_n)
