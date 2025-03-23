@@ -1,4 +1,4 @@
-r'''
+r"""
 <p>By starting at the top of the triangle below and moving to adjacent numbers on the row below, the maximum total from top to bottom is $23$.</p>
 <p class="monospace center"><span class="red"><b>3</b></span><br><span class="red"><b>7</b></span> 4<br>
 2 <span class="red"><b>4</b></span> 6<br>
@@ -20,4 +20,21 @@ r'''
 91 71 52 38 17 14 91 43 58 50 27 29 48<br>
 63 66 04 68 89 53 67 30 73 16 69 87 40 31<br>
 04 62 98 27 23 09 70 98 73 93 38 53 60 04 23</p>
-<p class="note"><b>NOTE:</b> As there are only $16384$ routes, it is possible to solve this problem by trying every route. However, <a href="problem=67">Problem 67</a>, is the same challenge with a triangle containing one-hundred rows; it cannot be solved by brute force, and requires a clever method! ;o)</p>'''
+<p class="note"><b>NOTE:</b> As there are only $16384$ routes, it is possible to solve this problem by trying every route. However, <a href="problem=67">Problem 67</a>, is the same challenge with a triangle containing one-hundred rows; it cannot be solved by brute force, and requires a clever method! ;o)</p>"""
+
+s = """3
+7 4
+2 4 6
+8 5 9 3"""
+split_s = s.split("\n")
+print(f"{split_s=}")
+g = [x.split(" ") for x in split_s]
+print(f"{g=}")
+final = []
+for item in g:
+    new_item = [int(x) for x in item]
+    final.append(new_item)
+print(final)
+
+# NOTE to self: Possibilities of moving: Left or Right --> Left (Index doesn't change), Right(Index increases by 1)
+# 2^ Number of moves to reach the end == Num of possibilities (ex. LLL, LRL, LLR.... RRR 8 moves)
