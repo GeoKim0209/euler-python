@@ -57,9 +57,12 @@ def compute_sum(triangle, strategy):
 
 # NOTE to self: Possibilities of moving: Left or Right --> Left (Index doesn't change), Right(Index increases by 1)
 # 2^ Number of moves to reach the end == Num of possibilities (ex. LLL, LRL, LLR.... RRR 8 moves)
-sums = []
 # Number of possibilities: 'LLL', 'LLR', 'LRL', 'LRR', 'RLL', 'RLR', 'RRL', 'RRR'
+max_sum = 0
+max_x = ""
 for x in itertools.product("LR", repeat=3):
-    print(x)
-
-print(compute_sum(final, "LLR"))
+    current_sum = compute_sum(final, x)
+    if current_sum > max_sum:
+        max_sum = current_sum
+        max_x = x
+print(max_x, max_sum)
