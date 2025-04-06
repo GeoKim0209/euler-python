@@ -22,6 +22,7 @@ r"""
 04 62 98 27 23 09 70 98 73 93 38 53 60 04 23</p>
 <p class="note"><b>NOTE:</b> As there are only $16384$ routes, it is possible to solve this problem by trying every route. However, <a href="problem=67">Problem 67</a>, is the same challenge with a triangle containing one-hundred rows; it cannot be solved by brute force, and requires a clever method! ;o)</p>"""
 
+import itertools
 s = """3
 7 4
 2 4 6
@@ -36,5 +37,27 @@ for item in g:
     final.append(new_item)
 print(final)
 
+def compute_sum(triangle,strategy):
+    #When triangle = [[3], [7, 4], [2, 4, 6], [8, 5, 9, 3]], and strategy = 'LLR'--> Output: 3+7+2+5 = 17
+    index = 0
+    sum = triangle[0][0]
+    row_index = 0
+    for d in strategy:
+        #Update sum with the next row's value
+        row_index += 1
+        if d == 'L':
+            index += 0
+        if d == 'R':
+            index += 1
+        sum = sum + triangle[row_index][index]
+    return sum
+
+
 # NOTE to self: Possibilities of moving: Left or Right --> Left (Index doesn't change), Right(Index increases by 1)
 # 2^ Number of moves to reach the end == Num of possibilities (ex. LLL, LRL, LLR.... RRR 8 moves)
+sums= []
+#Number of possibilities: 'LLL', 'LLR', 'LRL', 'LRR', 'RLL', 'RLR', 'RRL', 'RRR'
+for x in itertools.product('LR',repeat=3):
+    print(x)
+
+print(compute_sum(final,'LLR'))
