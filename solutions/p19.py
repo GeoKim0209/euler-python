@@ -50,14 +50,12 @@ def get_maximum_day(month):
         return 28
 
 
-print(get_n_days_after(1928, 12, 14, 8))  #  1928, 12, 22
-
-print(get_n_days_after(2016, 2, 18, 14))  # 2016, 3, 3
-
-print(get_n_days_after(2017, 2, 25, 5))  # 2017, 3, 2
-
-print(get_n_days_after(1928, 12, 27, 9))  # 1929, 1, 5
-
-print(get_n_days_after(2000, 2, 28, 5))  # 2000, 3, 4
-
-print(get_n_days_after(1900, 2, 28, 5))  # 1900, 3, 5
+year = 1901
+month = 1
+day = 13
+count = 0
+while year < 2001:
+    year, month, day = get_n_days_after(year, month, day, 7)
+    if day == 1:
+        count += 1
+print(count)
