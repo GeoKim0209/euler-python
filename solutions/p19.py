@@ -10,9 +10,6 @@ And on leap years, twenty-nine.</li>
 <li>A leap year occurs on any year evenly divisible by 4, but not on a century unless it is divisible by 400.</li>
 </ul><p>How many Sundays fell on the first of the month during the twentieth century (1 Jan 1901 to 31 Dec 2000)?</p>"""
 
-def get_day_of_week(year,month,day):
-    #Sunday = 0, Monday = 1, Tuesday = 2, Wednesday = 3, Thursday = 4, Friday = 5, Saturday = 6
-    pass
-def get_days_difference(year1,month1,day1,year2,month2,day2):
-    pass
-print(get_days_difference(1900,1,1,1901,1,1)) #365
+def get_n_days_after(year,month,day,n):
+    return year,month,day+n
+print(get_n_days_after(1928,12,14,8))
