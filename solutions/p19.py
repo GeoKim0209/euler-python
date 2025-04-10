@@ -11,16 +11,34 @@ And on leap years, twenty-nine.</li>
 </ul><p>How many Sundays fell on the first of the month during the twentieth century (1 Jan 1901 to 31 Dec 2000)?</p>"""
 
 
-def get_n_days_after(year, month, day, n): 
-    year_after=year
-    month_after=month
+def get_n_days_after(year, month, day, n):
+    year_after = year
+    month_after = month
     day_after = day + n
     maximum_day = get_maximum_day(month)
+    if month == 2 and is_leap_year(year):
+        maximum_day += 1
     if day_after > maximum_day:
-        month_after = month + 1
+        if month_after == 12:
+            year_after += 1
+            month_after = 1
+        else:
+            month_after += 1
         day_after -= maximum_day
 
     return year_after, month_after, day_after
+
+
+def is_leap_year(year):
+    if year % 100 == 0:
+        if year % 400 == 0:
+            return True
+        else:
+            return False
+    elif year % 4 == 0:
+        return True
+    else:
+        return False
 
 
 def get_maximum_day(month):
@@ -39,3 +57,7 @@ print(get_n_days_after(2016, 2, 18, 14))  # 2016, 3, 3
 print(get_n_days_after(2017, 2, 25, 5))  # 2017, 3, 2
 
 print(get_n_days_after(1928, 12, 27, 9))  # 1929, 1, 5
+
+print(get_n_days_after(2000, 2, 28, 5))  # 2000, 3, 4
+
+print(get_n_days_after(1900, 2, 28, 5))  # 1900, 3, 5
