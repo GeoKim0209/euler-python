@@ -16,8 +16,9 @@ print(len(abundant_nums))
 sums = set()
 for i in abundant_nums:
     for k in abundant_nums:
-        if i + k <= 28123:
-            sums.add(i + k)
+        if i + k > 28123:
+            continue
+        sums.add(i + k)
 print(len(sums))
 
 universal = set(range(1, 28124))
