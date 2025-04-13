@@ -52,7 +52,7 @@ def get_maximum_day(month):
 
 year = 1901
 month = 1
-day = 13
+day = 1
 count = 0
 while year < 2001:
     year, month, day = get_n_days_after(year, month, day, 7)
