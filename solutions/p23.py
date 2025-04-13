@@ -4,9 +4,24 @@ r"""<p>A perfect number is a number for which the sum of its proper divisors is 
 <p>As $12$ is the smallest abundant number, $1 + 2 + 3 + 4 + 6 = 16$, the smallest number that can be written as the sum of two abundant numbers is $24$. By mathematical analysis, it can be shown that all integers greater than $28123$ can be written as the sum of two abundant numbers. However, this upper limit cannot be reduced any further by analysis even though it is known that the greatest number that cannot be expressed as the sum of two abundant numbers is less than this limit.</p>
 <p>Find the sum of all the positive integers which cannot be written as the sum of two abundant numbers.</p>
 """
+
 from euler import get_sum_of_divisors
-abundant_nums=[]
-for i in range(1,28124):
+
+abundant_nums = []
+for i in range(1, 28124):
     if get_sum_of_divisors(i) > i:
         abundant_nums.append(i)
-print(abundant_nums)
+print(len(abundant_nums))
+
+sums = set()
+for i in abundant_nums:
+    for k in abundant_nums:
+        if i + k <= 28123:
+            sums.add(i + k)
+print(len(sums))
+
+universal = set(range(1, 28124))
+non_sums = universal - sums
+non_sums = sorted(non_sums)
+print(non_sums)
+print(sum(non_sums))
