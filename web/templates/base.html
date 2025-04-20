@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      {% block title %}{{ site_config.title }}{% endblock %}
+    </title>
+    <link
+      rel="stylesheet"
+      href="{{ site_config.base_url }}/assets/css/style.css"
+    />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\(', '\)']],
+          displayMath: [['$$', '$$'], ['\[', '\]']],
+          processEscapes: true
+        },
+        options: {
+          ignoreHtmlClass: 'no-mathjax',
+          processHtmlClass: 'mathjax'
+        },
+        startup: {
+          pageReady: function() {
+            return MathJax.startup.defaultPageReady().then(function() {
+              // Force update math when the page loads
+              MathJax.typeset();
+            });
+          }
+        }
+      };
+    </script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="site-title" href="{{ site_config.base_url }}/"
+          >{{ site_config.title }}</a
+        >
+        <nav class="site-nav">
+          <a href="{{ site_config.base_url }}/">Home</a>
+          <a href="{{ site_config.base_url }}/euler-library/">Euler Library</a>
+          <a
+            href="{{ site_config.github_repo }}"
+            target="_blank"
+            rel="noopener"
+            >GitHub</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="container">{% block content %}{% endblock %}</div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          &copy; {{ current_year }} {{ site_config.author }}. Built with Python for
+          Project Euler Solutions.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

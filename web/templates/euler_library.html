@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Euler Library | {{ site_config.title }}{% endblock %}
+
+{% block content %}
+<h1>Euler Helper Library</h1>
+
+<p>This is a collection of utility functions used across multiple Project Euler problem solutions.</p>
+
+<div class="euler-library">
+  {% for function in euler_functions %}
+  <div class="euler-function">
+    <h3>{{ function.name }}</h3>
+    <div class="function-description">
+      <p>{{ function.description }}</p>
+    </div>
+    <div class="code-container">
+      {{ function.code | safe }}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

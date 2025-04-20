@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}{{ problem.title }} | {{ site_config.title }}{% endblock %}
+
+{% block content %}
+<div class="problem-page">
+  <div class="problem-navigation">
+    <a href="{{ site_config.base_url }}/" class="home-link">← Home</a>
+    <h1>Problem {{ problem.number }}: {{ problem.title }}</h1>
+    <div class="nav-buttons">
+      {% if prev_problem %}      
+      <a
+        href="{{ site_config.base_url }}/problems/problem-{{ prev_problem.number }}/"
+        class="nav-button prev-button"
+        >← Previous</a
+      >
+      {% endif %}
+      
+      {% if next_problem %}
+      <a
+        href="{{ site_config.base_url }}/problems/problem-{{ next_problem.number }}/"
+        class="nav-button next-button"
+        >Next →</a
+      >
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="problem-statement">
+    <h2>Problem Statement</h2>
+    <div class="statement-content mathjax">{{ problem.statement | safe }}</div>
+  </div>
+
+  <div class="problem-solution">
+    <h2>Solution</h2>
+    <div class="code-container">
+      {{ highlighted_code | safe }}
+    </div>
+  </div>
+</div>
+{% endblock %}

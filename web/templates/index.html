@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Home | {{ site_config.title }}{% endblock %}
+
+{% block content %}
+<h1 id="project-euler-solutions">Project Euler Solutions by Geo Kim</h1>
+
+<p>Hi! My name is Geo Kim. Welcome to my Project Euler solutions repository! This site showcases my journey through solving Project Euler problems using Python.</p>
+
+<h2 id="what-is-project-euler">What is Project Euler?</h2>
+
+<p><a href="https://projecteuler.net/">Project Euler</a> is a series of challenging mathematical/computer programming problems that require more than just mathematical insights to solve. Although mathematics will help you arrive at elegant and efficient methods, the use of a computer and programming skills will be required to solve most problems.</p>
+
+<h2 id="problem-solutions">Problem Solutions</h2>
+
+<p>Below is a list of all the problems I've solved so far:</p>
+
+<div class="problem-table-container">
+  <table class="problem-table">
+    <thead>
+      <tr>
+        <th>Problem #</th>
+        <th>Title</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for problem in problems %}
+        <tr class="problem-row" data-href="{{ site_config.base_url }}/problems/problem-{{ problem.number }}/">
+          <td class="problem-number">
+            <a href="{{ site_config.base_url }}/problems/problem-{{ problem.number }}/">{{ problem.number }}</a>
+          </td>
+          <td class="problem-title">{{ problem.title }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const rows = document.querySelectorAll('tr.problem-row');
+    rows.forEach(row => {
+      row.addEventListener('click', function() {
+        window.location.href = this.dataset.href;
+      });
+    });
+  });
+</script>
+{% endblock %}
