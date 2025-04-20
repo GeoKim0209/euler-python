@@ -279,6 +279,10 @@ a:hover {
     background-color: var(--light-bg);
 }
 
+.problem-row:hover td:first-child a {
+    color: yellow;
+}
+
 .problem-number a {
     text-decoration: none;
     color: var(--primary-color);
