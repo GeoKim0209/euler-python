@@ -1,0 +1,145 @@
+/* Utility styles */
+.no_border {
+    border-collapse: collapse;
+ }
+ td.no_border, th.no_border, .no_border td, .no_border th {
+    padding: 1px;
+    border: none;
+ }
+ .no_border tr {
+    background-color: inherit;
+ }
+ .center {
+    text-align: center !important;
+ }
+ table.center {
+    margin-left: auto;
+    margin-right: auto;
+ }
+ .right {
+    text-align: right !important;
+ }
+ .left {
+    text-align: left !important;
+ }
+ .margin_left {
+    margin-left: 100px;
+ }
+ .add_border {
+    border: 1px solid var(--color-border-default);
+ }
+ .float_right {
+    float: right;
+ }
+ 
+ .float_left {
+    float: left;
+ }
+ .padding {
+    padding: 10px;
+ }
+ 
+ .strong {
+    font-weight: bold;
+ }
+ .italic {
+    font-style: italic;
+ }
+ .larger {
+    font-size: 110%;
+ }
+ .largest {
+    font-size: 120%;
+ }
+ .smaller {
+    font-size: 90%;
+ }
+ .smallest {
+    font-size: 80%;
+ }
+ .red {
+    color: var(--color-red);
+ }
+ .green {
+    color:var(--color-green);
+ }
+ .blue {
+    color:var(--color-blue);
+ }
+ .light_blue {
+    color:var(--color-light-blue);
+ }
+ .orange {
+    color:var(--color-orange);
+ }
+ .dark_green {
+    color:var(--color-dark-green);
+ }
+ .red_box {
+    outline: 2px solid var(--color-red);
+    border-radius: 10px;
+    padding-bottom: 2px;
+ }
+ .hidden {
+    position: absolute;
+    left: -999em;
+    width: 1em;
+    overflow: hidden;
+ }
+ .monospace {
+    font-family: var(--font-monospace);
+ }
+ .strikethrough {
+    text-decoration: line-through;
+ }
+ .w25 {
+    width: 25px;
+ }
+ .w50 {
+    width: 50px;
+ }
+ .w75 {
+    width: 75px;
+ }
+ .w100 {
+    width: 100px;
+ }
+ .w150 {
+    width: 150px;
+ }
+ .w200 {
+    width: 200px;
+ }
+ .w250 {
+    width: 250px;
+ }
+ .w300 {
+    width: 300px;
+ }
+ .w400 {
+    width: 400px;
+ }
+ 
+ .truncate {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+ }
+ 
+ .no_wrap {
+    white-space: nowrap;
+    display: inline-block;
+ }
+ 
+ .bonus_problem_unsolved_image {
+    width: 30px;
+    filter: grayscale(0.5);
+    margin-right: 10px;
+ }
+ .list_gap_between li + li {
+    margin-top: 20px;
+ }
+ .tag_color {
+    color: var(--color-text-link);
+    font-weight: bold;
+ }

@@ -39,6 +39,7 @@ TEMPLATES_DIR = ROOT_DIR / "web" / "templates"
 OUTPUT_DIR = ROOT_DIR / "site"
 ASSETS_DIR = OUTPUT_DIR / "assets"
 PROBLEMS_DIR = OUTPUT_DIR / "problems"
+STYLE_EXTRA_FILE = ROOT_DIR / "web" / "style_extra.css"
 
 # Create necessary directories
 os.makedirs(TEMPLATES_DIR, exist_ok=True)
@@ -159,6 +160,15 @@ def generate_site():
     --text-color: #24292e;
     --light-bg: #f6f8fa;
     --border-color: #e1e4e8;
+    --color-red: #d73a49;
+    --color-green: #28a745;
+    --color-blue: #0366d6;
+    --color-light-blue: #79b8ff;
+    --color-orange: #e36209;
+    --color-dark-green: #22863a;
+    --color-border-default: #e1e4e8;
+    --color-text-link: #0366d6;
+    --font-monospace: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
 }
 
 * {
@@ -477,6 +487,12 @@ pre {
         # Add Pygments syntax highlighting CSS
         pygments_css = HtmlFormatter(style="default").get_style_defs(".highlight")
         css += "\n\n" + pygments_css
+
+        # Add extra styles from style_extra.css if it exists
+        if os.path.exists(STYLE_EXTRA_FILE):
+            with open(STYLE_EXTRA_FILE, "r") as extra_css_file:
+                extra_css = extra_css_file.read()
+                css += "\n\n/* Extra styles */\n" + extra_css
 
         f.write(css)
 
