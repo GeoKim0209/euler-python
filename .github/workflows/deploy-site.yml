@@ -6,7 +6,6 @@ on:
       - main
     paths-ignore:
       - 'site/**'
-      - '.github/workflows/**'
 
 permissions:
   contents: write
