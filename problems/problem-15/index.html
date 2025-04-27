@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Lattice Paths | Project Euler Solutions
+    </title>
+    <link
+      rel="stylesheet"
+      href="/geo-kim-demo/assets/css/style.css"
+    />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\(', '\)']],
+          displayMath: [['$$', '$$'], ['\[', '\]']],
+          processEscapes: true
+        },
+        options: {
+          ignoreHtmlClass: 'no-mathjax',
+          processHtmlClass: 'mathjax'
+        },
+        startup: {
+          pageReady: function() {
+            return MathJax.startup.defaultPageReady().then(function() {
+              // Force update math when the page loads
+              MathJax.typeset();
+            });
+          }
+        }
+      };
+    </script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="site-title" href="/geo-kim-demo/"
+          >Project Euler Solutions</a
+        >
+        <nav class="site-nav">
+          <a href="/geo-kim-demo/">Home</a>
+          <a href="/geo-kim-demo/euler-library/">Euler Library</a>
+          <a
+            href="https://github.com/isnbh0/geo-kim-demo"
+            target="_blank"
+            rel="noopener"
+            >GitHub</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="container">
+<div class="problem-page">
+  <div class="problem-navigation">
+    <a href="/geo-kim-demo/" class="home-link">← Home</a>
+    <h1>Problem 15: Lattice Paths</h1>
+    <div class="nav-buttons">
+            
+      <a
+        href="/geo-kim-demo/problems/problem-14/"
+        class="nav-button prev-button"
+        >← Previous</a
+      >
+      
+      
+      
+      <a
+        href="/geo-kim-demo/problems/problem-16/"
+        class="nav-button next-button"
+        >Next →</a
+      >
+      
+    </div>
+  </div>
+
+  <div class="problem-statement">
+    <h2>Problem Statement</h2>
+    <div class="statement-content mathjax"><p>Starting in the top left corner of a $2 \times 2$ grid, and only being able to move to the right and down, there are exactly $6$ routes to the bottom right corner.</p>
+<div class="center">
+<img src="resources/images/0015.png?1678992052" class="dark_img" alt=""></div>
+<p>How many such routes are there through a $20 \times 20$ grid?</p></div>
+  </div>
+
+  <div class="problem-solution">
+    <h2>Solution</h2>
+    <div class="code-container">
+      <div class="highlight"><pre><span></span><span class="c1"># Lattice Paths</span>
+
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&lt;p&gt;Starting in the top left corner of a $2 \times 2$ grid, and only being able to move to the right and down, there are exactly $6$ routes to the bottom right corner.&lt;/p&gt;</span>
+<span class="sd">&lt;div class=&quot;center&quot;&gt;</span>
+<span class="sd">&lt;img src=&quot;resources/images/0015.png?1678992052&quot; class=&quot;dark_img&quot; alt=&quot;&quot;&gt;&lt;/div&gt;</span>
+<span class="sd">&lt;p&gt;How many such routes are there through a $20 \times 20$ grid?&lt;/p&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">factorial</span> <span class="k">as</span> <span class="n">fac</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">fac</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">fac</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="o">*</span> <span class="n">fac</span><span class="p">(</span><span class="mi">20</span><span class="p">)))</span>
+</pre></div>
+
+    </div>
+  </div>
+</div>
+</div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          &copy; 2025 Geo Kim. Built with Python for
+          Project Euler Solutions.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

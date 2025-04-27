@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Largest Palindrome Product | Project Euler Solutions
+    </title>
+    <link
+      rel="stylesheet"
+      href="/geo-kim-demo/assets/css/style.css"
+    />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\(', '\)']],
+          displayMath: [['$$', '$$'], ['\[', '\]']],
+          processEscapes: true
+        },
+        options: {
+          ignoreHtmlClass: 'no-mathjax',
+          processHtmlClass: 'mathjax'
+        },
+        startup: {
+          pageReady: function() {
+            return MathJax.startup.defaultPageReady().then(function() {
+              // Force update math when the page loads
+              MathJax.typeset();
+            });
+          }
+        }
+      };
+    </script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="site-title" href="/geo-kim-demo/"
+          >Project Euler Solutions</a
+        >
+        <nav class="site-nav">
+          <a href="/geo-kim-demo/">Home</a>
+          <a href="/geo-kim-demo/euler-library/">Euler Library</a>
+          <a
+            href="https://github.com/isnbh0/geo-kim-demo"
+            target="_blank"
+            rel="noopener"
+            >GitHub</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="container">
+<div class="problem-page">
+  <div class="problem-navigation">
+    <a href="/geo-kim-demo/" class="home-link">← Home</a>
+    <h1>Problem 4: Largest Palindrome Product</h1>
+    <div class="nav-buttons">
+            
+      <a
+        href="/geo-kim-demo/problems/problem-3/"
+        class="nav-button prev-button"
+        >← Previous</a
+      >
+      
+      
+      
+      <a
+        href="/geo-kim-demo/problems/problem-5/"
+        class="nav-button next-button"
+        >Next →</a
+      >
+      
+    </div>
+  </div>
+
+  <div class="problem-statement">
+    <h2>Problem Statement</h2>
+    <div class="statement-content mathjax"><p>A palindromic number reads the same both ways. The largest palindrome made from the product of two $2$-digit numbers is $9009 = 91 \times 99$.</p>
+<p>Find the largest palindrome made from the product of two $3$-digit numbers.</p></div>
+  </div>
+
+  <div class="problem-solution">
+    <h2>Solution</h2>
+    <div class="code-container">
+      <div class="highlight"><pre><span></span><span class="c1"># Largest Palindrome Product</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&lt;p&gt;A palindromic number reads the same both ways. The largest palindrome made from the product of two $2$-digit numbers is $9009 = 91 \times 99$.&lt;/p&gt;</span>
+<span class="sd">&lt;p&gt;Find the largest palindrome made from the product of two $3$-digit numbers.&lt;/p&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">max_palindrome</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">palindrome</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">):</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+        <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">palindrome</span> <span class="o">=</span> <span class="n">num</span>
+        <span class="k">if</span> <span class="n">palindrome</span> <span class="o">&gt;</span> <span class="n">max_palindrome</span><span class="p">:</span>
+            <span class="n">max_palindrome</span> <span class="o">=</span> <span class="n">palindrome</span>
+            <span class="n">a_value</span> <span class="o">=</span> <span class="n">a</span>
+            <span class="n">b_value</span> <span class="o">=</span> <span class="n">b</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a_value</span><span class="p">,</span> <span class="n">b_value</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">max_palindrome</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+  </div>
+</div>
+</div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          &copy; 2025 Geo Kim. Built with Python for
+          Project Euler Solutions.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

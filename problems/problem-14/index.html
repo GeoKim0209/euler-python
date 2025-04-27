@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Longest Collatz Sequence | Project Euler Solutions
+    </title>
+    <link
+      rel="stylesheet"
+      href="/geo-kim-demo/assets/css/style.css"
+    />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\(', '\)']],
+          displayMath: [['$$', '$$'], ['\[', '\]']],
+          processEscapes: true
+        },
+        options: {
+          ignoreHtmlClass: 'no-mathjax',
+          processHtmlClass: 'mathjax'
+        },
+        startup: {
+          pageReady: function() {
+            return MathJax.startup.defaultPageReady().then(function() {
+              // Force update math when the page loads
+              MathJax.typeset();
+            });
+          }
+        }
+      };
+    </script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="site-title" href="/geo-kim-demo/"
+          >Project Euler Solutions</a
+        >
+        <nav class="site-nav">
+          <a href="/geo-kim-demo/">Home</a>
+          <a href="/geo-kim-demo/euler-library/">Euler Library</a>
+          <a
+            href="https://github.com/isnbh0/geo-kim-demo"
+            target="_blank"
+            rel="noopener"
+            >GitHub</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="container">
+<div class="problem-page">
+  <div class="problem-navigation">
+    <a href="/geo-kim-demo/" class="home-link">← Home</a>
+    <h1>Problem 14: Longest Collatz Sequence</h1>
+    <div class="nav-buttons">
+            
+      <a
+        href="/geo-kim-demo/problems/problem-13/"
+        class="nav-button prev-button"
+        >← Previous</a
+      >
+      
+      
+      
+      <a
+        href="/geo-kim-demo/problems/problem-15/"
+        class="nav-button next-button"
+        >Next →</a
+      >
+      
+    </div>
+  </div>
+
+  <div class="problem-statement">
+    <h2>Problem Statement</h2>
+    <div class="statement-content mathjax"><p>The following iterative sequence is defined for the set of positive integers:</p>
+<ul style="list-style-type:none;">
+<li>$n \to n/2$ ($n$ is even)</li>
+<li>$n \to 3n + 1$ ($n$ is odd)</li></ul>
+<p>Using the rule above and starting with $13$, we generate the following sequence:
+$$13 \to 40 \to 20 \to 10 \to 5 \to 16 \to 8 \to 4 \to 2 \to 1.$$</p>
+<p>It can be seen that this sequence (starting at $13$ and finishing at $1$) contains $10$ terms. Although it has not been proved yet (Collatz Problem), it is thought that all starting numbers finish at $1$.</p>
+<p>Which starting number, under one million, produces the longest chain?</p>
+<p class="note"><b>NOTE:</b> Once the chain starts the terms are allowed to go above one million.</p></div>
+  </div>
+
+  <div class="problem-solution">
+    <h2>Solution</h2>
+    <div class="code-container">
+      <div class="highlight"><pre><span></span><span class="c1"># Longest Collatz Sequence</span>
+
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot;&lt;p&gt;The following iterative sequence is defined for the set of positive integers:&lt;/p&gt;</span>
+<span class="sd">&lt;ul style=&quot;list-style-type:none;&quot;&gt;</span>
+<span class="sd">&lt;li&gt;$n \to n/2$ ($n$ is even)&lt;/li&gt;</span>
+<span class="sd">&lt;li&gt;$n \to 3n + 1$ ($n$ is odd)&lt;/li&gt;&lt;/ul&gt;</span>
+<span class="sd">&lt;p&gt;Using the rule above and starting with $13$, we generate the following sequence:</span>
+<span class="sd">$$13 \to 40 \to 20 \to 10 \to 5 \to 16 \to 8 \to 4 \to 2 \to 1.$$&lt;/p&gt;</span>
+<span class="sd">&lt;p&gt;It can be seen that this sequence (starting at $13$ and finishing at $1$) contains $10$ terms. Although it has not been proved yet (Collatz Problem), it is thought that all starting numbers finish at $1$.&lt;/p&gt;</span>
+<span class="sd">&lt;p&gt;Which starting number, under one million, produces the longest chain?&lt;/p&gt;</span>
+<span class="sd">&lt;p class=&quot;note&quot;&gt;&lt;b&gt;NOTE:&lt;/b&gt; Once the chain starts the terms are allowed to go above one million.&lt;/p&gt;&quot;&quot;&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">n</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">n</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">1</span>
+
+
+<span class="n">memo</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">max_count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">max_n</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10000001</span><span class="p">):</span>
+    <span class="n">initial_n</span> <span class="o">=</span> <span class="n">n</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">chain</span> <span class="o">=</span> <span class="p">[</span><span class="n">initial_n</span><span class="p">]</span>
+    <span class="k">while</span> <span class="n">n</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">collatz</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">chain</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">memo</span><span class="p">:</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="n">memo</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+            <span class="k">break</span>
+    <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="n">max_count</span><span class="p">:</span>
+        <span class="n">max_n</span> <span class="o">=</span> <span class="n">initial_n</span>
+        <span class="n">max_count</span> <span class="o">=</span> <span class="n">count</span>
+
+    <span class="c1"># Update memo</span>
+    <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">chain</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">memo</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">memo</span><span class="p">[</span><span class="n">val</span><span class="p">]</span> <span class="o">=</span> <span class="n">count</span>
+        <span class="n">count</span> <span class="o">-=</span> <span class="mi">1</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">max_n</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+  </div>
+</div>
+</div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          &copy; 2025 Geo Kim. Built with Python for
+          Project Euler Solutions.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

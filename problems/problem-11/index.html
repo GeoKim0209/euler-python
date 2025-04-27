@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Largest Product in a Grid | Project Euler Solutions
+    </title>
+    <link
+      rel="stylesheet"
+      href="/geo-kim-demo/assets/css/style.css"
+    />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\(', '\)']],
+          displayMath: [['$$', '$$'], ['\[', '\]']],
+          processEscapes: true
+        },
+        options: {
+          ignoreHtmlClass: 'no-mathjax',
+          processHtmlClass: 'mathjax'
+        },
+        startup: {
+          pageReady: function() {
+            return MathJax.startup.defaultPageReady().then(function() {
+              // Force update math when the page loads
+              MathJax.typeset();
+            });
+          }
+        }
+      };
+    </script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="site-title" href="/geo-kim-demo/"
+          >Project Euler Solutions</a
+        >
+        <nav class="site-nav">
+          <a href="/geo-kim-demo/">Home</a>
+          <a href="/geo-kim-demo/euler-library/">Euler Library</a>
+          <a
+            href="https://github.com/isnbh0/geo-kim-demo"
+            target="_blank"
+            rel="noopener"
+            >GitHub</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="container">
+<div class="problem-page">
+  <div class="problem-navigation">
+    <a href="/geo-kim-demo/" class="home-link">← Home</a>
+    <h1>Problem 11: Largest Product in a Grid</h1>
+    <div class="nav-buttons">
+            
+      <a
+        href="/geo-kim-demo/problems/problem-10/"
+        class="nav-button prev-button"
+        >← Previous</a
+      >
+      
+      
+      
+      <a
+        href="/geo-kim-demo/problems/problem-12/"
+        class="nav-button next-button"
+        >Next →</a
+      >
+      
+    </div>
+  </div>
+
+  <div class="problem-statement">
+    <h2>Problem Statement</h2>
+    <div class="statement-content mathjax"><p>In the $20 \times 20$ grid below, four numbers along a diagonal line have been marked in red.</p>
+<p class="monospace center">
+08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
+49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00
+81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65
+52 70 95 23 04 60 11 42 69 24 68 56 01 32 56 71 37 02 36 91
+22 31 16 71 51 67 63 89 41 92 36 54 22 40 40 28 66 33 13 80
+24 47 32 60 99 03 45 02 44 75 33 53 78 36 84 20 35 17 12 50
+32 98 81 28 64 23 67 10 26 38 40 67 59 54 70 66 18 38 64 70
+67 26 20 68 02 62 12 20 95 63 94 39 63 08 40 91 66 49 94 21
+24 55 58 05 66 73 99 26 97 17 78 78 96 83 14 88 34 89 63 72
+21 36 23 09 75 00 76 44 20 45 35 14 00 61 33 97 34 31 33 95
+78 17 53 28 22 75 31 67 15 94 03 80 04 62 16 14 09 53 56 92
+16 39 05 42 96 35 31 47 55 58 88 24 00 17 54 24 36 29 85 57
+86 56 00 48 35 71 89 07 05 44 44 37 44 60 21 58 51 54 17 58
+19 80 81 68 05 94 47 69 28 73 92 13 86 52 17 77 04 89 55 40
+04 52 08 83 97 35 99 16 07 97 57 32 16 26 26 79 33 27 98 66
+88 36 68 87 57 62 20 72 03 46 33 67 46 55 12 32 63 93 53 69
+04 42 16 73 38 25 39 11 24 94 72 18 08 46 29 32 40 62 76 36
+20 69 36 41 72 30 23 88 34 62 99 69 82 67 59 85 74 04 36 16
+20 73 35 29 78 31 90 01 74 31 49 71 48 86 81 16 23 57 05 54
+01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48</p>
+<p>The product of these numbers is $26 \times 63 \times 78 \times 14 = 1788696$.</p>
+<p>What is the greatest product of four adjacent numbers in the same direction (up, down, left, right, or diagonally) in the $20 \times 20$ grid?</p></div>
+  </div>
+
+  <div class="problem-solution">
+    <h2>Solution</h2>
+    <div class="code-container">
+      <div class="highlight"><pre><span></span><span class="c1"># Largest Product in a Grid</span>
+
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot;&lt;p&gt;In the $20 \times 20$ grid below, four numbers along a diagonal line have been marked in red.&lt;/p&gt;</span>
+<span class="sd">&lt;p class=&quot;monospace center&quot;&gt;</span>
+<span class="sd">08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08</span>
+<span class="sd">49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00</span>
+<span class="sd">81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65</span>
+<span class="sd">52 70 95 23 04 60 11 42 69 24 68 56 01 32 56 71 37 02 36 91</span>
+<span class="sd">22 31 16 71 51 67 63 89 41 92 36 54 22 40 40 28 66 33 13 80</span>
+<span class="sd">24 47 32 60 99 03 45 02 44 75 33 53 78 36 84 20 35 17 12 50</span>
+<span class="sd">32 98 81 28 64 23 67 10 26 38 40 67 59 54 70 66 18 38 64 70</span>
+<span class="sd">67 26 20 68 02 62 12 20 95 63 94 39 63 08 40 91 66 49 94 21</span>
+<span class="sd">24 55 58 05 66 73 99 26 97 17 78 78 96 83 14 88 34 89 63 72</span>
+<span class="sd">21 36 23 09 75 00 76 44 20 45 35 14 00 61 33 97 34 31 33 95</span>
+<span class="sd">78 17 53 28 22 75 31 67 15 94 03 80 04 62 16 14 09 53 56 92</span>
+<span class="sd">16 39 05 42 96 35 31 47 55 58 88 24 00 17 54 24 36 29 85 57</span>
+<span class="sd">86 56 00 48 35 71 89 07 05 44 44 37 44 60 21 58 51 54 17 58</span>
+<span class="sd">19 80 81 68 05 94 47 69 28 73 92 13 86 52 17 77 04 89 55 40</span>
+<span class="sd">04 52 08 83 97 35 99 16 07 97 57 32 16 26 26 79 33 27 98 66</span>
+<span class="sd">88 36 68 87 57 62 20 72 03 46 33 67 46 55 12 32 63 93 53 69</span>
+<span class="sd">04 42 16 73 38 25 39 11 24 94 72 18 08 46 29 32 40 62 76 36</span>
+<span class="sd">20 69 36 41 72 30 23 88 34 62 99 69 82 67 59 85 74 04 36 16</span>
+<span class="sd">20 73 35 29 78 31 90 01 74 31 49 71 48 86 81 16 23 57 05 54</span>
+<span class="sd">01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48&lt;/p&gt;</span>
+<span class="sd">&lt;p&gt;The product of these numbers is $26 \times 63 \times 78 \times 14 = 1788696$.&lt;/p&gt;</span>
+<span class="sd">&lt;p&gt;What is the greatest product of four adjacent numbers in the same direction (up, down, left, right, or diagonally) in the $20 \times 20$ grid?&lt;/p&gt;&quot;&quot;&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">print_grid</span><span class="p">(</span><span class="n">grid</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">grid</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">multiply_list</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+    <span class="c1"># multiply_list([&quot;11&quot;,&quot;7&quot;]) -&gt; 77</span>
+    <span class="n">product</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="n">product</span> <span class="o">=</span> <span class="n">product</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">product</span>
+
+
+<span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08</span>
+<span class="s2">49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00</span>
+<span class="s2">81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65</span>
+<span class="s2">52 70 95 23 04 60 11 42 69 24 68 56 01 32 56 71 37 02 36 91</span>
+<span class="s2">22 31 16 71 51 67 63 89 41 92 36 54 22 40 40 28 66 33 13 80</span>
+<span class="s2">24 47 32 60 99 03 45 02 44 75 33 53 78 36 84 20 35 17 12 50</span>
+<span class="s2">32 98 81 28 64 23 67 10 26 38 40 67 59 54 70 66 18 38 64 70</span>
+<span class="s2">67 26 20 68 02 62 12 20 95 63 94 39 63 08 40 91 66 49 94 21</span>
+<span class="s2">24 55 58 05 66 73 99 26 97 17 78 78 96 83 14 88 34 89 63 72</span>
+<span class="s2">21 36 23 09 75 00 76 44 20 45 35 14 00 61 33 97 34 31 33 95</span>
+<span class="s2">78 17 53 28 22 75 31 67 15 94 03 80 04 62 16 14 09 53 56 92</span>
+<span class="s2">16 39 05 42 96 35 31 47 55 58 88 24 00 17 54 24 36 29 85 57</span>
+<span class="s2">86 56 00 48 35 71 89 07 05 44 44 37 44 60 21 58 51 54 17 58</span>
+<span class="s2">19 80 81 68 05 94 47 69 28 73 92 13 86 52 17 77 04 89 55 40</span>
+<span class="s2">04 52 08 83 97 35 99 16 07 97 57 32 16 26 26 79 33 27 98 66</span>
+<span class="s2">88 36 68 87 57 62 20 72 03 46 33 67 46 55 12 32 63 93 53 69</span>
+<span class="s2">04 42 16 73 38 25 39 11 24 94 72 18 08 46 29 32 40 62 76 36</span>
+<span class="s2">20 69 36 41 72 30 23 88 34 62 99 69 82 67 59 85 74 04 36 16</span>
+<span class="s2">20 73 35 29 78 31 90 01 74 31 49 71 48 86 81 16 23 57 05 54</span>
+<span class="s2">01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48&quot;&quot;&quot;</span>
+
+
+<span class="c1"># convert into 2d-array</span>
+<span class="n">row_strings</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">row_string</span> <span class="ow">in</span> <span class="n">row_strings</span><span class="p">:</span>
+    <span class="n">grid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row_string</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+
+
+<span class="n">maxNum</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c1"># Attempt to find the greatest products of two adjacent numbers horizontally</span>
+<span class="n">max_value</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">multiply_list</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">n</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">max_value</span><span class="p">:</span>
+                <span class="n">max_value</span> <span class="o">=</span> <span class="n">multiply_list</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">n</span><span class="p">])</span>
+                <span class="c1"># print(max_value, s[i : i + n])</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">if</span> <span class="n">max_value</span> <span class="o">&gt;</span> <span class="n">maxNum</span><span class="p">:</span>
+            <span class="n">maxNum</span> <span class="o">=</span> <span class="n">max_value</span>
+
+<span class="c1"># Attempt to find the greatest products of two adjacent numbers vertically</span>
+<span class="n">max_value</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">pair</span> <span class="o">=</span> <span class="p">[</span><span class="n">grid</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="n">n</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="n">multiply_list</span><span class="p">(</span><span class="n">pair</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_value</span><span class="p">:</span>
+                <span class="n">max_value</span> <span class="o">=</span> <span class="n">multiply_list</span><span class="p">(</span><span class="n">pair</span><span class="p">)</span>
+                <span class="c1"># print(max_value, pair)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">if</span> <span class="n">max_value</span> <span class="o">&gt;</span> <span class="n">maxNum</span><span class="p">:</span>
+            <span class="n">maxNum</span> <span class="o">=</span> <span class="n">max_value</span>
+
+<span class="c1"># Attempt to find the greatest products of two adjacent numbers up-right</span>
+<span class="n">max_value</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)):</span>
+        <span class="c1"># Move from Index(1,1) to Index(0,2)</span>
+        <span class="c1"># (4,0)-&gt;(3,1)-&gt;(2,2)-&gt;(1,3)-&gt;(0,4)</span>
+        <span class="c1"># (k-0,i+0)-&gt;(k-1,i+1)-&gt;...-&gt; (k-(n-1),i+(n-1))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">pair</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                <span class="k">assert</span> <span class="n">k</span> <span class="o">-</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+                <span class="n">pair</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="n">x</span><span class="p">][</span><span class="n">i</span> <span class="o">+</span> <span class="n">x</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">multiply_list</span><span class="p">(</span><span class="n">pair</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_value</span><span class="p">:</span>
+                <span class="n">max_value</span> <span class="o">=</span> <span class="n">multiply_list</span><span class="p">(</span><span class="n">pair</span><span class="p">)</span>
+                <span class="c1"># print(max_value, pair)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">if</span> <span class="n">max_value</span> <span class="o">&gt;</span> <span class="n">maxNum</span><span class="p">:</span>
+            <span class="n">maxNum</span> <span class="o">=</span> <span class="n">max_value</span>
+<span class="c1"># Attempt to find the greatest product of two adjacent numbers down-right</span>
+<span class="n">max_value</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)):</span>
+        <span class="c1"># Move from Index(0,0) to Index(1,1)</span>
+        <span class="c1"># (0,0) -&gt; (1,1) -&gt; (2,2) -&gt; (3,3) -&gt; (4,4)</span>
+        <span class="c1"># (k,i) -&gt; (k+1,i+1)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">pair</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                <span class="k">assert</span> <span class="n">k</span> <span class="o">+</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+                <span class="n">pair</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="n">x</span><span class="p">][</span><span class="n">i</span> <span class="o">+</span> <span class="n">x</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">multiply_list</span><span class="p">(</span><span class="n">pair</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_value</span><span class="p">:</span>
+                <span class="n">max_value</span> <span class="o">=</span> <span class="n">multiply_list</span><span class="p">(</span><span class="n">pair</span><span class="p">)</span>
+                <span class="c1"># print(max_value, pair)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">if</span> <span class="n">max_value</span> <span class="o">&gt;</span> <span class="n">maxNum</span><span class="p">:</span>
+            <span class="n">maxNum</span> <span class="o">=</span> <span class="n">max_value</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">maxNum</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+  </div>
+</div>
+</div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          &copy; 2025 Geo Kim. Built with Python for
+          Project Euler Solutions.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

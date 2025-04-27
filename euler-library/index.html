@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Euler Library | Project Euler Solutions
+    </title>
+    <link
+      rel="stylesheet"
+      href="/geo-kim-demo/assets/css/style.css"
+    />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\(', '\)']],
+          displayMath: [['$$', '$$'], ['\[', '\]']],
+          processEscapes: true
+        },
+        options: {
+          ignoreHtmlClass: 'no-mathjax',
+          processHtmlClass: 'mathjax'
+        },
+        startup: {
+          pageReady: function() {
+            return MathJax.startup.defaultPageReady().then(function() {
+              // Force update math when the page loads
+              MathJax.typeset();
+            });
+          }
+        }
+      };
+    </script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="site-title" href="/geo-kim-demo/"
+          >Project Euler Solutions</a
+        >
+        <nav class="site-nav">
+          <a href="/geo-kim-demo/">Home</a>
+          <a href="/geo-kim-demo/euler-library/">Euler Library</a>
+          <a
+            href="https://github.com/isnbh0/geo-kim-demo"
+            target="_blank"
+            rel="noopener"
+            >GitHub</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="container">
+<h1>Euler Helper Library</h1>
+
+<p>This is a collection of utility functions used across multiple Project Euler problem solutions.</p>
+
+<div class="euler-library">
+  
+  <div class="euler-function">
+    <h3>is_prime</h3>
+    <div class="function-description">
+      <p>Function that is prime.</p>
+    </div>
+    <div class="code-container">
+      <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">is_prime</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">k</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="o">%</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+
+    </div>
+  </div>
+  
+  <div class="euler-function">
+    <h3>get_prime_factorization</h3>
+    <div class="function-description">
+      <p>Function that get prime factorization.</p>
+    </div>
+    <div class="code-container">
+      <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_prime_factorization</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">while</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># n is divisible by i</span>
+                <span class="n">factor</span> <span class="o">=</span> <span class="n">i</span>
+                <span class="k">break</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">factor</span><span class="p">)</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">n</span> <span class="o">//</span> <span class="n">factor</span>
+    <span class="k">return</span> <span class="n">Counter</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+  </div>
+  
+  <div class="euler-function">
+    <h3>get_sum_of_divisors</h3>
+    <div class="function-description">
+      <p>Function that get sum of divisors.</p>
+    </div>
+    <div class="code-container">
+      <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_sum_of_divisors</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="c1"># Sum of divisors = (p^0 + p^1 + … + p^m) × (q^0 + q^1 + … + q^n)</span>
+    <span class="n">pf</span> <span class="o">=</span> <span class="n">get_prime_factorization</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">product</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">prime</span><span class="p">,</span> <span class="n">exponent</span> <span class="ow">in</span> <span class="n">pf</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="nb">sum</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">exponent</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="nb">sum</span> <span class="o">+=</span> <span class="n">prime</span><span class="o">**</span><span class="n">i</span>
+        <span class="n">product</span> <span class="o">*=</span> <span class="nb">sum</span>
+    <span class="k">return</span> <span class="n">product</span> <span class="o">-</span> <span class="n">n</span>
+</pre></div>
+
+    </div>
+  </div>
+  
+</div>
+</div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          &copy; 2025 Geo Kim. Built with Python for
+          Project Euler Solutions.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

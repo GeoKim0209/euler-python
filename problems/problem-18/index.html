@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Maximum Path Sum I | Project Euler Solutions
+    </title>
+    <link
+      rel="stylesheet"
+      href="/geo-kim-demo/assets/css/style.css"
+    />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\(', '\)']],
+          displayMath: [['$$', '$$'], ['\[', '\]']],
+          processEscapes: true
+        },
+        options: {
+          ignoreHtmlClass: 'no-mathjax',
+          processHtmlClass: 'mathjax'
+        },
+        startup: {
+          pageReady: function() {
+            return MathJax.startup.defaultPageReady().then(function() {
+              // Force update math when the page loads
+              MathJax.typeset();
+            });
+          }
+        }
+      };
+    </script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="site-title" href="/geo-kim-demo/"
+          >Project Euler Solutions</a
+        >
+        <nav class="site-nav">
+          <a href="/geo-kim-demo/">Home</a>
+          <a href="/geo-kim-demo/euler-library/">Euler Library</a>
+          <a
+            href="https://github.com/isnbh0/geo-kim-demo"
+            target="_blank"
+            rel="noopener"
+            >GitHub</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="container">
+<div class="problem-page">
+  <div class="problem-navigation">
+    <a href="/geo-kim-demo/" class="home-link">← Home</a>
+    <h1>Problem 18: Maximum Path Sum I</h1>
+    <div class="nav-buttons">
+            
+      <a
+        href="/geo-kim-demo/problems/problem-17/"
+        class="nav-button prev-button"
+        >← Previous</a
+      >
+      
+      
+      
+      <a
+        href="/geo-kim-demo/problems/problem-19/"
+        class="nav-button next-button"
+        >Next →</a
+      >
+      
+    </div>
+  </div>
+
+  <div class="problem-statement">
+    <h2>Problem Statement</h2>
+    <div class="statement-content mathjax"><p>By starting at the top of the triangle below and moving to adjacent numbers on the row below, the maximum total from top to bottom is $23$.</p>
+<p class="monospace center"><span class="red"><b>3</b></span><br><span class="red"><b>7</b></span> 4<br>
+2 <span class="red"><b>4</b></span> 6<br>
+8 5 <span class="red"><b>9</b></span> 3</p>
+<p>That is, $3 + 7 + 4 + 9 = 23$.</p>
+<p>Find the maximum total from top to bottom of the triangle below:</p>
+<p class="monospace center">75<br>
+95 64<br>
+17 47 82<br>
+18 35 87 10<br>
+20 04 82 47 65<br>
+19 01 23 75 03 34<br>
+88 02 77 73 07 63 67<br>
+99 65 04 28 06 16 70 92<br>
+41 41 26 56 83 40 80 70 33<br>
+41 48 72 33 47 32 37 16 94 29<br>
+53 71 44 65 25 43 91 52 97 51 14<br>
+70 11 33 28 77 73 17 78 39 68 17 57<br>
+91 71 52 38 17 14 91 43 58 50 27 29 48<br>
+63 66 04 68 89 53 67 30 73 16 69 87 40 31<br>
+04 62 98 27 23 09 70 98 73 93 38 53 60 04 23</p>
+<p class="note"><b>NOTE:</b> As there are only $16384$ routes, it is possible to solve this problem by trying every route. However, <a href="problem=67">Problem 67</a>, is the same challenge with a triangle containing one-hundred rows; it cannot be solved by brute force, and requires a clever method! ;o)</p></div>
+  </div>
+
+  <div class="problem-solution">
+    <h2>Solution</h2>
+    <div class="code-container">
+      <div class="highlight"><pre><span></span><span class="c1"># Maximum Path Sum I</span>
+
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&lt;p&gt;By starting at the top of the triangle below and moving to adjacent numbers on the row below, the maximum total from top to bottom is $23$.&lt;/p&gt;</span>
+<span class="sd">&lt;p class=&quot;monospace center&quot;&gt;&lt;span class=&quot;red&quot;&gt;&lt;b&gt;3&lt;/b&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;red&quot;&gt;&lt;b&gt;7&lt;/b&gt;&lt;/span&gt; 4&lt;br&gt;</span>
+<span class="sd">2 &lt;span class=&quot;red&quot;&gt;&lt;b&gt;4&lt;/b&gt;&lt;/span&gt; 6&lt;br&gt;</span>
+<span class="sd">8 5 &lt;span class=&quot;red&quot;&gt;&lt;b&gt;9&lt;/b&gt;&lt;/span&gt; 3&lt;/p&gt;</span>
+<span class="sd">&lt;p&gt;That is, $3 + 7 + 4 + 9 = 23$.&lt;/p&gt;</span>
+<span class="sd">&lt;p&gt;Find the maximum total from top to bottom of the triangle below:&lt;/p&gt;</span>
+<span class="sd">&lt;p class=&quot;monospace center&quot;&gt;75&lt;br&gt;</span>
+<span class="sd">95 64&lt;br&gt;</span>
+<span class="sd">17 47 82&lt;br&gt;</span>
+<span class="sd">18 35 87 10&lt;br&gt;</span>
+<span class="sd">20 04 82 47 65&lt;br&gt;</span>
+<span class="sd">19 01 23 75 03 34&lt;br&gt;</span>
+<span class="sd">88 02 77 73 07 63 67&lt;br&gt;</span>
+<span class="sd">99 65 04 28 06 16 70 92&lt;br&gt;</span>
+<span class="sd">41 41 26 56 83 40 80 70 33&lt;br&gt;</span>
+<span class="sd">41 48 72 33 47 32 37 16 94 29&lt;br&gt;</span>
+<span class="sd">53 71 44 65 25 43 91 52 97 51 14&lt;br&gt;</span>
+<span class="sd">70 11 33 28 77 73 17 78 39 68 17 57&lt;br&gt;</span>
+<span class="sd">91 71 52 38 17 14 91 43 58 50 27 29 48&lt;br&gt;</span>
+<span class="sd">63 66 04 68 89 53 67 30 73 16 69 87 40 31&lt;br&gt;</span>
+<span class="sd">04 62 98 27 23 09 70 98 73 93 38 53 60 04 23&lt;/p&gt;</span>
+<span class="sd">&lt;p class=&quot;note&quot;&gt;&lt;b&gt;NOTE:&lt;/b&gt; As there are only $16384$ routes, it is possible to solve this problem by trying every route. However, &lt;a href=&quot;problem=67&quot;&gt;Problem 67&lt;/a&gt;, is the same challenge with a triangle containing one-hundred rows; it cannot be solved by brute force, and requires a clever method! ;o)&lt;/p&gt;&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">itertools</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;3</span>
+<span class="s2">7 4</span>
+<span class="s2">2 4 6</span>
+<span class="s2">8 5 9 3&quot;&quot;&quot;</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;75</span>
+<span class="s2">95 64</span>
+<span class="s2">17 47 82</span>
+<span class="s2">18 35 87 10</span>
+<span class="s2">20 04 82 47 65</span>
+<span class="s2">19 01 23 75 03 34</span>
+<span class="s2">88 02 77 73 07 63 67</span>
+<span class="s2">99 65 04 28 06 16 70 92</span>
+<span class="s2">41 41 26 56 83 40 80 70 33</span>
+<span class="s2">41 48 72 33 47 32 37 16 94 29</span>
+<span class="s2">53 71 44 65 25 43 91 52 97 51 14</span>
+<span class="s2">70 11 33 28 77 73 17 78 39 68 17 57</span>
+<span class="s2">91 71 52 38 17 14 91 43 58 50 27 29 48</span>
+<span class="s2">63 66 04 68 89 53 67 30 73 16 69 87 40 31</span>
+<span class="s2">04 62 98 27 23 09 70 98 73 93 38 53 60 04 23&quot;&quot;&quot;</span>
+<span class="n">split_s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">split_s</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">g</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">split_s</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">g</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">final</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">g</span><span class="p">:</span>
+    <span class="n">new_item</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">item</span><span class="p">]</span>
+    <span class="n">final</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_item</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">final</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">compute_sum</span><span class="p">(</span><span class="n">triangle</span><span class="p">,</span> <span class="n">strategy</span><span class="p">):</span>
+    <span class="c1"># When triangle = [[3], [7, 4], [2, 4, 6], [8, 5, 9, 3]], and strategy = &#39;LLR&#39;--&gt; Output: 3+7+2+5 = 17</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="nb">sum</span> <span class="o">=</span> <span class="n">triangle</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">row_index</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">strategy</span><span class="p">:</span>
+        <span class="c1"># Update sum with the next row&#39;s value</span>
+        <span class="n">row_index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">d</span> <span class="o">==</span> <span class="s2">&quot;L&quot;</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">+=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">d</span> <span class="o">==</span> <span class="s2">&quot;R&quot;</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="n">triangle</span><span class="p">[</span><span class="n">row_index</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">sum</span>
+
+
+<span class="c1"># NOTE to self: Possibilities of moving: Left or Right --&gt; Left (Index doesn&#39;t change), Right(Index increases by 1)</span>
+<span class="c1"># 2^ Number of moves to reach the end == Num of possibilities (ex. LLL, LRL, LLR.... RRR 8 moves)</span>
+<span class="c1"># Number of possibilities: &#39;LLL&#39;, &#39;LLR&#39;, &#39;LRL&#39;, &#39;LRR&#39;, &#39;RLL&#39;, &#39;RLR&#39;, &#39;RRL&#39;, &#39;RRR&#39;</span>
+<span class="n">max_sum</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">max_x</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="s2">&quot;LR&quot;</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">14</span><span class="p">):</span>
+    <span class="n">current_sum</span> <span class="o">=</span> <span class="n">compute_sum</span><span class="p">(</span><span class="n">final</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">current_sum</span> <span class="o">&gt;</span> <span class="n">max_sum</span><span class="p">:</span>
+        <span class="n">max_sum</span> <span class="o">=</span> <span class="n">current_sum</span>
+        <span class="n">max_x</span> <span class="o">=</span> <span class="n">x</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">max_x</span><span class="p">,</span> <span class="n">max_sum</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+  </div>
+</div>
+</div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          &copy; 2025 Geo Kim. Built with Python for
+          Project Euler Solutions.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

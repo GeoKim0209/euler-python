@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Number Letter Counts | Project Euler Solutions
+    </title>
+    <link
+      rel="stylesheet"
+      href="/geo-kim-demo/assets/css/style.css"
+    />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\(', '\)']],
+          displayMath: [['$$', '$$'], ['\[', '\]']],
+          processEscapes: true
+        },
+        options: {
+          ignoreHtmlClass: 'no-mathjax',
+          processHtmlClass: 'mathjax'
+        },
+        startup: {
+          pageReady: function() {
+            return MathJax.startup.defaultPageReady().then(function() {
+              // Force update math when the page loads
+              MathJax.typeset();
+            });
+          }
+        }
+      };
+    </script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="site-title" href="/geo-kim-demo/"
+          >Project Euler Solutions</a
+        >
+        <nav class="site-nav">
+          <a href="/geo-kim-demo/">Home</a>
+          <a href="/geo-kim-demo/euler-library/">Euler Library</a>
+          <a
+            href="https://github.com/isnbh0/geo-kim-demo"
+            target="_blank"
+            rel="noopener"
+            >GitHub</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="container">
+<div class="problem-page">
+  <div class="problem-navigation">
+    <a href="/geo-kim-demo/" class="home-link">← Home</a>
+    <h1>Problem 17: Number Letter Counts</h1>
+    <div class="nav-buttons">
+            
+      <a
+        href="/geo-kim-demo/problems/problem-16/"
+        class="nav-button prev-button"
+        >← Previous</a
+      >
+      
+      
+      
+      <a
+        href="/geo-kim-demo/problems/problem-18/"
+        class="nav-button next-button"
+        >Next →</a
+      >
+      
+    </div>
+  </div>
+
+  <div class="problem-statement">
+    <h2>Problem Statement</h2>
+    <div class="statement-content mathjax"><p>If the numbers $1$ to $5$ are written out in words: one, two, three, four, five, then there are $3 + 3 + 5 + 4 + 4 = 19$ letters used in total.</p>
+<p>If all the numbers from $1$ to $1000$ (one thousand) inclusive were written out in words, how many letters would be used? </p>
+<br><p class="note"><b>NOTE:</b> Do not count spaces or hyphens. For example, $342$ (three hundred and forty-two) contains $23$ letters and $115$ (one hundred and fifteen) contains $20$ letters. The use of "and" when writing out numbers is in compliance with British usage.</p></div>
+  </div>
+
+  <div class="problem-solution">
+    <h2>Solution</h2>
+    <div class="code-container">
+      <div class="highlight"><pre><span></span><span class="c1"># Number Letter Counts</span>
+
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&lt;p&gt;If the numbers $1$ to $5$ are written out in words: one, two, three, four, five, then there are $3 + 3 + 5 + 4 + 4 = 19$ letters used in total.&lt;/p&gt;</span>
+<span class="sd">&lt;p&gt;If all the numbers from $1$ to $1000$ (one thousand) inclusive were written out in words, how many letters would be used? &lt;/p&gt;</span>
+<span class="sd">&lt;br&gt;&lt;p class=&quot;note&quot;&gt;&lt;b&gt;NOTE:&lt;/b&gt; Do not count spaces or hyphens. For example, $342$ (three hundred and forty-two) contains $23$ letters and $115$ (one hundred and fifteen) contains $20$ letters. The use of &quot;and&quot; when writing out numbers is in compliance with British usage.&lt;/p&gt;&quot;&quot;&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">num_word</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;one&quot;</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;two&quot;</span><span class="p">,</span>
+        <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;three&quot;</span><span class="p">,</span>
+        <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;four&quot;</span><span class="p">,</span>
+        <span class="mi">5</span><span class="p">:</span> <span class="s2">&quot;five&quot;</span><span class="p">,</span>
+        <span class="mi">6</span><span class="p">:</span> <span class="s2">&quot;six&quot;</span><span class="p">,</span>
+        <span class="mi">7</span><span class="p">:</span> <span class="s2">&quot;seven&quot;</span><span class="p">,</span>
+        <span class="mi">8</span><span class="p">:</span> <span class="s2">&quot;eight&quot;</span><span class="p">,</span>
+        <span class="mi">9</span><span class="p">:</span> <span class="s2">&quot;nine&quot;</span><span class="p">,</span>
+        <span class="mi">10</span><span class="p">:</span> <span class="s2">&quot;ten&quot;</span><span class="p">,</span>
+        <span class="mi">11</span><span class="p">:</span> <span class="s2">&quot;eleven&quot;</span><span class="p">,</span>
+        <span class="mi">12</span><span class="p">:</span> <span class="s2">&quot;twelve&quot;</span><span class="p">,</span>
+        <span class="mi">13</span><span class="p">:</span> <span class="s2">&quot;thirteen&quot;</span><span class="p">,</span>
+        <span class="mi">14</span><span class="p">:</span> <span class="s2">&quot;fourteen&quot;</span><span class="p">,</span>
+        <span class="mi">15</span><span class="p">:</span> <span class="s2">&quot;fifteen&quot;</span><span class="p">,</span>
+        <span class="mi">16</span><span class="p">:</span> <span class="s2">&quot;sixteen&quot;</span><span class="p">,</span>
+        <span class="mi">17</span><span class="p">:</span> <span class="s2">&quot;seventeen&quot;</span><span class="p">,</span>
+        <span class="mi">18</span><span class="p">:</span> <span class="s2">&quot;eighteen&quot;</span><span class="p">,</span>
+        <span class="mi">19</span><span class="p">:</span> <span class="s2">&quot;nineteen&quot;</span><span class="p">,</span>
+        <span class="mi">20</span><span class="p">:</span> <span class="s2">&quot;twenty&quot;</span><span class="p">,</span>
+        <span class="mi">30</span><span class="p">:</span> <span class="s2">&quot;thirty&quot;</span><span class="p">,</span>
+        <span class="mi">40</span><span class="p">:</span> <span class="s2">&quot;forty&quot;</span><span class="p">,</span>
+        <span class="mi">50</span><span class="p">:</span> <span class="s2">&quot;fifty&quot;</span><span class="p">,</span>
+        <span class="mi">60</span><span class="p">:</span> <span class="s2">&quot;sixty&quot;</span><span class="p">,</span>
+        <span class="mi">70</span><span class="p">:</span> <span class="s2">&quot;seventy&quot;</span><span class="p">,</span>
+        <span class="mi">80</span><span class="p">:</span> <span class="s2">&quot;eighty&quot;</span><span class="p">,</span>
+        <span class="mi">90</span><span class="p">:</span> <span class="s2">&quot;ninety&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">20</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">mapping</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="mi">21</span> <span class="o">&lt;=</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">99</span><span class="p">:</span>
+        <span class="c1"># Ex. n == 23</span>
+        <span class="c1"># Unit == 3,</span>
+        <span class="c1"># Ten_digit == 2</span>
+
+        <span class="c1"># Twenty-three</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">10</span>
+        <span class="n">units_word</span> <span class="o">=</span> <span class="n">mapping</span><span class="p">[</span><span class="n">unit</span><span class="p">]</span>  <span class="c1"># Units_word == Three</span>
+        <span class="n">tens_digit</span> <span class="o">=</span> <span class="n">n</span> <span class="o">//</span> <span class="mi">10</span>
+        <span class="n">tens_word</span> <span class="o">=</span> <span class="n">mapping</span><span class="p">[</span><span class="n">tens_digit</span> <span class="o">*</span> <span class="mi">10</span><span class="p">]</span>  <span class="c1"># Tens_Word == Twenty</span>
+        <span class="k">return</span> <span class="n">tens_word</span> <span class="o">+</span> <span class="n">units_word</span>
+    <span class="k">elif</span> <span class="mi">100</span> <span class="o">&lt;=</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">999</span><span class="p">:</span>
+        <span class="c1"># Ex. n == 123</span>
+
+        <span class="c1"># One hundred and twenty-three</span>
+        <span class="n">last_two_digits</span> <span class="o">=</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">100</span>
+        <span class="n">first_digit</span> <span class="o">=</span> <span class="n">n</span> <span class="o">//</span> <span class="mi">100</span>
+        <span class="n">first_digit_word</span> <span class="o">=</span> <span class="n">mapping</span><span class="p">[</span><span class="n">first_digit</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">last_two_digits</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">first_digit_word</span> <span class="o">+</span> <span class="s2">&quot;hundred&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">last_two_digits_word</span> <span class="o">=</span> <span class="n">num_word</span><span class="p">(</span><span class="n">last_two_digits</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">first_digit_word</span> <span class="o">+</span> <span class="s2">&quot;hundred&quot;</span> <span class="o">+</span> <span class="s2">&quot;and&quot;</span> <span class="o">+</span> <span class="n">last_two_digits_word</span>
+
+
+<span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">num_word</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+    <span class="n">total</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">num_word</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+<span class="n">total</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="s2">&quot;onethousand&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+  </div>
+</div>
+</div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          &copy; 2025 Geo Kim. Built with Python for
+          Project Euler Solutions.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

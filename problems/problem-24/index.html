@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Lexicographic Permutations | Project Euler Solutions
+    </title>
+    <link
+      rel="stylesheet"
+      href="/geo-kim-demo/assets/css/style.css"
+    />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\(', '\)']],
+          displayMath: [['$$', '$$'], ['\[', '\]']],
+          processEscapes: true
+        },
+        options: {
+          ignoreHtmlClass: 'no-mathjax',
+          processHtmlClass: 'mathjax'
+        },
+        startup: {
+          pageReady: function() {
+            return MathJax.startup.defaultPageReady().then(function() {
+              // Force update math when the page loads
+              MathJax.typeset();
+            });
+          }
+        }
+      };
+    </script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="site-title" href="/geo-kim-demo/"
+          >Project Euler Solutions</a
+        >
+        <nav class="site-nav">
+          <a href="/geo-kim-demo/">Home</a>
+          <a href="/geo-kim-demo/euler-library/">Euler Library</a>
+          <a
+            href="https://github.com/isnbh0/geo-kim-demo"
+            target="_blank"
+            rel="noopener"
+            >GitHub</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="container">
+<div class="problem-page">
+  <div class="problem-navigation">
+    <a href="/geo-kim-demo/" class="home-link">← Home</a>
+    <h1>Problem 24: Lexicographic Permutations</h1>
+    <div class="nav-buttons">
+            
+      <a
+        href="/geo-kim-demo/problems/problem-23/"
+        class="nav-button prev-button"
+        >← Previous</a
+      >
+      
+      
+      
+    </div>
+  </div>
+
+  <div class="problem-statement">
+    <h2>Problem Statement</h2>
+    <div class="statement-content mathjax"><p>A permutation is an ordered arrangement of objects. For example, 3124 is one possible permutation of the digits 1, 2, 3 and 4. If all of the permutations are listed numerically or alphabetically, we call it lexicographic order. The lexicographic permutations of 0, 1 and 2 are:</p>
+<p class="center">012   021   102   120   201   210</p>
+<p>What is the millionth lexicographic permutation of the digits 0, 1, 2, 3, 4, 5, 6, 7, 8 and 9?</p></div>
+  </div>
+
+  <div class="problem-solution">
+    <h2>Solution</h2>
+    <div class="code-container">
+      <div class="highlight"><pre><span></span><span class="c1"># Lexicographic Permutations</span>
+
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot;&lt;p&gt;A permutation is an ordered arrangement of objects. For example, 3124 is one possible permutation of the digits 1, 2, 3 and 4. If all of the permutations are listed numerically or alphabetically, we call it lexicographic order. The lexicographic permutations of 0, 1 and 2 are:&lt;/p&gt;</span>
+<span class="sd">&lt;p class=&quot;center&quot;&gt;012   021   102   120   201   210&lt;/p&gt;</span>
+<span class="sd">&lt;p&gt;What is the millionth lexicographic permutation of the digits 0, 1, 2, 3, 4, 5, 6, 7, 8 and 9?&lt;/p&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Brainstorm:</span>
+<span class="sd">Sorting order --&gt; Bring sort algorithm from euler library</span>
+<span class="sd">Lexicographic Permutation --&gt; Factorial?</span>
+<span class="sd">set=[0,1,2,3,4,5,6,7,8,9]</span>
+<span class="sd">Bring &quot;factorial&quot; module?</span>
+<span class="sd">for i in range(factorial(10)) --&gt; 10digits = 10!</span>
+
+<span class="sd">Starting from 0: 0xxxxx... --&gt; 9! --&gt; 362,880</span>
+<span class="sd">Starting from 1: 1xxxxx... --&gt; 9! --&gt; 362,880</span>
+<span class="sd">9!*y --&gt; Less than 1 million --&gt; 362880*3 = 1088640 --&gt; Starting number = 2 </span>
+<span class="sd">...</span>
+
+<span class="sd">2013456789 = 725761th num = 2*(9!) + 1</span>
+<span class="sd">2098765431 = </span>
+<span class="sd">2103456789 = 766081th num = 2*(9!) + 1*8! + 1</span>
+<span class="sd">2198765430 =</span>
+<span class="sd">2301456789 = 806401th num = 2*(9!) + 2*8! + 1</span>
+
+<span class="sd">2401356789 = 846721th num = 2*(9!) + 3*8! + 1</span>
+<span class="sd">2501346789 = 887041th num = 2*(9!) + 4*8! + 1</span>
+<span class="sd">2601345789 = 927361th num = 2*(9!) + 5*8! + 1</span>
+<span class="sd">2701345689 = 967681th num = 2*(9!) + 6*8! + 1</span>
+
+<span class="sd">2710345689 = 972721th num = 2*(9!) + 6*8! + 1*7! + 1</span>
+<span class="sd">...</span>
+<span class="sd">2780|134569 = 997921th num = 2*(9!) + 6*8! + 6*7! + 1</span>
+<span class="sd">2783|014569 = 999361th num = 2*(9!) + 6*8! + 6*7! + 2*6! + 1</span>
+<span class="sd">27839|01456 = 999961th num = 2*(9!) + 6*8! + 6*7! + 2*6! + 5*5! + 1</span>
+<span class="sd">278391|0456 = 999985th num = 2*(9!) + 6*8! + 6*7! + 2*6! + 5*5! + 1*4! + 1</span>
+<span class="sd">2783915|046 = 999997th num = 2*(9!) + 6*8! + 6*7! + 2*6! + 5*5! + 1*4! + 2*3! + 1</span>
+<span class="sd">2783915064</span>
+<span class="sd">2783915406</span>
+<span class="sd">2783915460</span>
+<span class="sd">&quot;&quot;&quot;</span>
+</pre></div>
+
+    </div>
+  </div>
+</div>
+</div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          &copy; 2025 Geo Kim. Built with Python for
+          Project Euler Solutions.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
