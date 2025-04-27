@@ -55,6 +55,11 @@ def get_problem_number(filename):
     return None
 
 
+# Remove HTML tags from text
+def strip_html_tags(text):
+    return re.sub(r"<[^>]+>", "", text)
+
+
 # Parse problem solutions
 def parse_solution_file(file_path):
     with open(file_path, "r") as f:
@@ -66,9 +71,9 @@ def parse_solution_file(file_path):
     if first_line.startswith("# "):
         top_comment = first_line[2:].strip()  # Remove the "# " prefix
 
-    # Extract problem statement from docstring
-    statement_match = re.search(r'"""(.*?)"""', content, re.DOTALL)
-    statement = statement_match.group(1).strip() if statement_match else ""
+    # Extract problem statement from docstring - support both """ and ''' formats
+    statement_match = re.search(r'("""|\'\'\')(.*?)\1', content, re.DOTALL)
+    statement = statement_match.group(2).strip() if statement_match else ""
 
     # Get problem title preferring the top comment if it exists
     if top_comment:
@@ -81,6 +86,7 @@ def parse_solution_file(file_path):
         )
 
         # Clean up title - extract main concept
+        title = strip_html_tags(title)  # Remove HTML tags
         title = re.sub(r"\$.*?\$", "", title)  # Remove math expressions
         title = " ".join(title.split()[:4])  # Take first few words
         title = title.split(".")[0].strip()
@@ -97,7 +103,11 @@ def parse_solution_file(file_path):
 # Get list of all problems
 def get_all_problems():
     problem_files = sorted(
-        [f for f in os.listdir(SOLUTIONS_DIR) if f.startswith("p") and f.endswith(".py") and get_problem_number(f) is not None],
+        [
+            f
+            for f in os.listdir(SOLUTIONS_DIR)
+            if f.startswith("p") and f.endswith(".py") and get_problem_number(f) is not None
+        ],
         key=lambda x: get_problem_number(x),
     )
     problems = []
@@ -669,39 +679,78 @@ pre {
 
         # Extract functions
         functions = []
-        function_matches = re.finditer(
-            r"def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\((.*?)\):(.*?)(?=\n\n|\n(?:def|$))",
-            content,
-            re.DOTALL,
-        )
 
-        for match in function_matches:
-            func_name = match.group(1)
-            func_params = match.group(2)
-            func_body = match.group(3).strip()
+        # Get all lines in the file
+        lines = content.split("\n")
 
-            # Extract docstring if present
-            docstring = ""
-            docstring_match = re.search(r'"""(.*?)"""', func_body, re.DOTALL)
-            if docstring_match:
-                docstring = docstring_match.group(1).strip()
+        i = 0
+        while i < len(lines):
+            line = lines[i].strip()
 
-            # Generate description
-            if not docstring:
-                description = f"Function that {func_name.replace('_', ' ')}."
+            # Check if this is a function definition
+            match = re.match(r"def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\((.*?)\):", line)
+            if match:
+                func_name = match.group(1)
+                func_params = match.group(2)
+
+                # Start collecting the function body
+                func_body = [line]
+
+                # Track indentation of the function definition
+                base_indent = len(lines[i]) - len(lines[i].lstrip())
+
+                # Move to next line
+                i += 1
+
+                # Continue collecting until we reach a line with same or less indentation
+                # that isn't blank or a comment
+                while i < len(lines):
+                    curr_line = lines[i]
+                    curr_stripped = curr_line.strip()
+
+                    # Skip empty lines
+                    if not curr_stripped:
+                        func_body.append(curr_line)
+                        i += 1
+                        continue
+
+                    # Check indentation level
+                    curr_indent = len(curr_line) - len(curr_line.lstrip())
+
+                    # If we've reached a line with same or less indentation that's not a comment,
+                    # we've exited the function
+                    if curr_indent <= base_indent and not curr_stripped.startswith("#"):
+                        break
+
+                    # Add line to function body
+                    func_body.append(curr_line)
+                    i += 1
+
+                # Join the function body
+                full_func_code = "\n".join(func_body)
+
+                # Extract docstring if present
+                docstring = ""
+                docstring_match = re.search(r'("""|\'\'\')(.*?)\1', full_func_code, re.DOTALL)
+                if docstring_match:
+                    docstring = docstring_match.group(2).strip()
+
+                # Generate description
+                if not docstring:
+                    description = f"Function that {func_name.replace('_', ' ')}."
+                else:
+                    description = docstring
+
+                # Highlight code
+                lexer = get_lexer_by_name("python", stripall=True)
+                formatter = HtmlFormatter(cssclass="highlight")
+                highlighted_code = pygments.highlight(full_func_code, lexer, formatter)
+
+                functions.append(
+                    {"name": func_name, "description": description, "code": highlighted_code}
+                )
             else:
-                description = docstring
-
-            # Highlight code
-            lexer = get_lexer_by_name("python", stripall=True)
-            formatter = HtmlFormatter(cssclass="highlight")
-            highlighted_code = pygments.highlight(
-                f"def {func_name}({func_params}):{func_body}", lexer, formatter
-            )
-
-            functions.append(
-                {"name": func_name, "description": description, "code": highlighted_code}
-            )
+                i += 1
 
         return functions
 
