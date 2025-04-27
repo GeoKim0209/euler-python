@@ -8,6 +8,9 @@ on:
       - 'site/**'
       - '.github/workflows/**'
 
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
