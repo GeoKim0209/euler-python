@@ -5,7 +5,8 @@ r"""<p>A permutation is an ordered arrangement of objects. For example, 3124 is 
 <p>What is the millionth lexicographic permutation of the digits 0, 1, 2, 3, 4, 5, 6, 7, 8 and 9?</p>
 """
 
-"""Brainstorm:
+"""
+Brainstorm:
 Sorting order --> Bring sort algorithm from euler library
 Lexicographic Permutation --> Factorial?
 set=[0,1,2,3,4,5,6,7,8,9]
