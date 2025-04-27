@@ -1,3 +1,5 @@
+# Longest Collatz Sequence
+
 r"""<p>The following iterative sequence is defined for the set of positive integers:</p>
 <ul style="list-style-type:none;">
 <li>$n \to n/2$ ($n$ is even)</li>
@@ -39,5 +41,5 @@ for n in range(1, 10000001):
         if val in memo:
             break
         memo[val] = count
-        count-=1
+        count -= 1
 print(max_n)

@@ -1,3 +1,5 @@
+# Largest Product in a Grid
+
 r"""<p>In the $20 \times 20$ grid below, four numbers along a diagonal line have been marked in red.</p>
 <p class="monospace center">
 08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
@@ -59,14 +61,14 @@ string = """08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
 01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48"""
 
 
-#convert into 2d-array
+# convert into 2d-array
 row_strings = string.split("\n")
 grid = []
 for row_string in row_strings:
     grid.append(row_string.split())
 
 
-maxNum=0
+maxNum = 0
 # Attempt to find the greatest products of two adjacent numbers horizontally
 max_value = 0
 n = 4
@@ -76,7 +78,7 @@ for k in range(len(grid)):
         try:
             if multiply_list(s[i : i + n]) > max_value:
                 max_value = multiply_list(s[i : i + n])
-                #print(max_value, s[i : i + n])
+                # print(max_value, s[i : i + n])
         except:
             pass
         if max_value > maxNum:
@@ -92,7 +94,7 @@ for k in range(len(grid)):
             pair = [grid[x][i] for x in range(k, k + n)]
             if multiply_list(pair) > max_value:
                 max_value = multiply_list(pair)
-                #print(max_value, pair)
+                # print(max_value, pair)
         except:
             pass
         if max_value > maxNum:
@@ -114,14 +116,14 @@ for k in range(len(grid)):
                 pair.append(grid[k - x][i + x])
             if multiply_list(pair) > max_value:
                 max_value = multiply_list(pair)
-                #print(max_value, pair)
+                # print(max_value, pair)
         except:
             pass
         if max_value > maxNum:
             maxNum = max_value
 # Attempt to find the greatest product of two adjacent numbers down-right
 max_value = 0
-n = 4  
+n = 4
 for k in range(len(grid)):
     s = grid[k]
     for i in range(len(s)):
@@ -135,7 +137,7 @@ for k in range(len(grid)):
                 pair.append(grid[k + x][i + x])
             if multiply_list(pair) > max_value:
                 max_value = multiply_list(pair)
-                #print(max_value, pair)
+                # print(max_value, pair)
         except:
             pass
         if max_value > maxNum:

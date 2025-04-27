@@ -290,7 +290,11 @@ a:hover {
 }
 
 .problem-row:hover td:first-child a {
-    color: yellow;
+    color: red;
+}
+
+.problem-row:hover .problem-title {
+    color: red;
 }
 
 .problem-number a {
