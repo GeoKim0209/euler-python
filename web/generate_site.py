@@ -28,8 +28,8 @@ site_config = {
     "title": "Project Euler Solutions",
     "description": "Solutions to Project Euler problems in Python",
     "author": "Geo Kim",
-    "github_repo": "https://github.com/isnbh0/geo-kim-demo",
-    "base_url": "" if is_local else "/geo-kim-demo",
+    "github_repo": "https://github.com/GeoKim0209/euler-python",
+    "base_url": "" if is_local else "/euler-python",
 }
 
 # Directory structure
