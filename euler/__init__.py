@@ -2,6 +2,7 @@ import math
 
 
 def is_prime(k):
+    """Utility Function that helps the user check if the inputted number is prime or composite."""
     for i in range(2, int(math.sqrt(k)) + 1):
         if k % i == 0:
             return False
