@@ -754,6 +754,9 @@ pre {
                 docstring_match = re.search(r'("""|\'\'\')(.*?)\1', full_func_code, re.DOTALL)
                 if docstring_match:
                     docstring = docstring_match.group(2).strip()
+                    full_func_code = re.sub(
+                        r'    ("""|\'\'\')(.*?)\1\n', "", full_func_code
+                    )
 
                 # Generate description
                 if not docstring:
