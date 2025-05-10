@@ -40,3 +40,11 @@ Starting from 1: 1xxxxx... --> 9! --> 362,880
 2783915406
 2783915460
 """
+import itertools
+
+s = "0123456789"
+n = 1000000
+for i, x in enumerate(itertools.permutations(s)):
+    if i + 1 == n:
+        break
+print(i + 1, "".join(x))
