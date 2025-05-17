@@ -193,6 +193,17 @@ def generate_site():
     with open(ASSETS_DIR / "css" / "style.css", "w") as f:
         # Base CSS styles
         css = """
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.site-logo {
+  width: 64px;
+  height: 64px;
+}
+
 :root {
     --primary-color: #0366d6;
     --secondary-color: #586069;
@@ -551,7 +562,7 @@ pre {
       href="{{ site_config.base_url }}/assets/css/style.css"
     />
     <!-- Favicon links -->
-    <link rel="icon" type="image/x-icon" href="{{ site_config.base_url }}/assets/favicon/favicon.ico" />
+    <link rel="icon" type="image/png" href="{{ site_config.base_url }}/assets/favicon/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="{{ site_config.base_url }}/assets/favicon/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="{{ site_config.base_url }}/assets/favicon/favicon-16x16.png" />
     <link rel="icon" type="image/png" sizes="48x48" href="{{ site_config.base_url }}/assets/favicon/favicon-48x48.png" />
@@ -603,6 +614,7 @@ pre {
             >GitHub</a
           >
         </nav>
+        <img class="site-logo" src="{{ site_config.base_url }}/assets/favicon/favicon-192x192.png" alt="Logo" />
       </div>
     </header>
 
