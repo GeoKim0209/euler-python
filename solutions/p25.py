@@ -29,4 +29,5 @@ while True:
     a, b = b, c
     if len(str(c)) == 1000:
         break
+
 print(count, c)
