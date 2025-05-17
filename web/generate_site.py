@@ -4,6 +4,7 @@
 #   "jinja2==3.1.2",
 #   "pygments==2.15.1",
 #   "markupsafe",
+#   "pillow",
 # ]
 # ///
 
@@ -17,6 +18,7 @@ from pathlib import Path
 import pygments
 from jinja2 import Environment, FileSystemLoader
 from markupsafe import Markup
+from PIL import Image
 from pygments.formatters import HtmlFormatter
 from pygments.lexers import get_lexer_by_name
 
@@ -38,13 +40,16 @@ SOLUTIONS_DIR = ROOT_DIR / "solutions"
 TEMPLATES_DIR = ROOT_DIR / "web" / "templates"
 OUTPUT_DIR = ROOT_DIR / "site"
 ASSETS_DIR = OUTPUT_DIR / "assets"
+FAVICON_DIR = ASSETS_DIR / "favicon"
 PROBLEMS_DIR = OUTPUT_DIR / "problems"
 STYLE_EXTRA_FILE = ROOT_DIR / "web" / "style_extra.css"
+LOGO_FILE = ROOT_DIR / "web" / "geo_logo.png"
 
 # Create necessary directories
 os.makedirs(TEMPLATES_DIR, exist_ok=True)
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 os.makedirs(ASSETS_DIR / "css", exist_ok=True)
+os.makedirs(FAVICON_DIR, exist_ok=True)
 os.makedirs(PROBLEMS_DIR, exist_ok=True)
 
 
@@ -139,12 +144,47 @@ def safe_content(content):
 env.filters["safe_content"] = safe_content
 
 
+# Function to generate favicon files
+def generate_favicons():
+    if not os.path.exists(LOGO_FILE):
+        print(f"Warning: Logo file {LOGO_FILE} not found. Skipping favicon generation.")
+        return
+
+    # Create favicon directory if it doesn't exist
+    os.makedirs(FAVICON_DIR, exist_ok=True)
+
+    # Load the logo image
+    with Image.open(LOGO_FILE) as img:
+        # Generate favicons of different sizes
+        favicon_sizes = [16, 32, 48, 180, 192, 512]
+        for size in favicon_sizes:
+            favicon = img.copy()
+            favicon = favicon.resize((size, size), Image.Resampling.LANCZOS)
+
+            # Save as PNG
+            favicon.save(FAVICON_DIR / f"favicon-{size}x{size}.png", "PNG")
+
+            # For the standard favicon.ico, save the 32x32 version
+            if size == 32:
+                favicon.save(FAVICON_DIR / "favicon.ico", "ICO")
+
+        # Save original as apple-touch-icon.png (180x180)
+        apple_icon = img.copy()
+        apple_icon = apple_icon.resize((180, 180), Image.Resampling.LANCZOS)
+        apple_icon.save(FAVICON_DIR / "apple-touch-icon.png", "PNG")
+
+    print(f"Favicon files generated in {FAVICON_DIR}")
+
+
 # Generate the site
 def generate_site():
     # Clean output directory (but keep assets if exists)
     if os.path.exists(PROBLEMS_DIR):
         shutil.rmtree(PROBLEMS_DIR)
     os.makedirs(PROBLEMS_DIR, exist_ok=True)
+
+    # Generate favicons
+    generate_favicons()
 
     # Get all problems
     problems = get_all_problems()
@@ -510,6 +550,15 @@ pre {
       rel="stylesheet"
       href="{{ site_config.base_url }}/assets/css/style.css"
     />
+    <!-- Favicon links -->
+    <link rel="icon" type="image/x-icon" href="{{ site_config.base_url }}/assets/favicon/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ site_config.base_url }}/assets/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ site_config.base_url }}/assets/favicon/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="{{ site_config.base_url }}/assets/favicon/favicon-48x48.png" />
+    <link rel="apple-touch-icon" href="{{ site_config.base_url }}/assets/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ site_config.base_url }}/assets/favicon/favicon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ site_config.base_url }}/assets/favicon/favicon-512x512.png" />
+    <!-- End favicon links -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script>
       window.MathJax = {
@@ -754,9 +803,7 @@ pre {
                 docstring_match = re.search(r'("""|\'\'\')(.*?)\1', full_func_code, re.DOTALL)
                 if docstring_match:
                     docstring = docstring_match.group(2).strip()
-                    full_func_code = re.sub(
-                        r'    ("""|\'\'\')(.*?)\1\n', "", full_func_code
-                    )
+                    full_func_code = re.sub(r'    ("""|\'\'\')(.*?)\1\n', "", full_func_code)
 
                 # Generate description
                 if not docstring:
