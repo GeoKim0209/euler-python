@@ -206,6 +206,7 @@ def generate_site():
 
 :root {
     --primary-color: #0366d6;
+    --header-color: #012e62;
     --secondary-color: #586069;
     --bg-color: #ffffff;
     --text-color: #24292e;
@@ -244,7 +245,7 @@ body {
 
 /* Header Styles */
 .site-header {
-    background-color: var(--primary-color);
+    background-color: var(--header-color);
     padding: 15px 0;
     color: white;
 }
