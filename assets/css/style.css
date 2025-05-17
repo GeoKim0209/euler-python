@@ -1,4 +1,15 @@
 
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.site-logo {
+  width: 64px;
+  height: 64px;
+}
+
 :root {
     --primary-color: #0366d6;
     --secondary-color: #586069;
