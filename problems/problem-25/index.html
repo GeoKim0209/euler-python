@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      The Fibonacci sequence is | Project Euler Solutions
+    </title>
+    <link
+      rel="stylesheet"
+      href="/euler-python/assets/css/style.css"
+    />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\(', '\)']],
+          displayMath: [['$$', '$$'], ['\[', '\]']],
+          processEscapes: true
+        },
+        options: {
+          ignoreHtmlClass: 'no-mathjax',
+          processHtmlClass: 'mathjax'
+        },
+        startup: {
+          pageReady: function() {
+            return MathJax.startup.defaultPageReady().then(function() {
+              // Force update math when the page loads
+              MathJax.typeset();
+            });
+          }
+        }
+      };
+    </script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="site-title" href="/euler-python/"
+          >Project Euler Solutions</a
+        >
+        <nav class="site-nav">
+          <a href="/euler-python/">Home</a>
+          <a href="/euler-python/euler-library/">Euler Library</a>
+          <a
+            href="https://github.com/GeoKim0209/euler-python"
+            target="_blank"
+            rel="noopener"
+            >GitHub</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="container">
+<div class="problem-page">
+  <div class="problem-navigation">
+    <a href="/euler-python/" class="home-link">← Home</a>
+    <h1>Problem 25: The Fibonacci sequence is</h1>
+    <div class="nav-buttons">
+            
+      <a
+        href="/euler-python/problems/problem-24/"
+        class="nav-button prev-button"
+        >← Previous</a
+      >
+      
+      
+      
+    </div>
+  </div>
+
+  <div class="problem-statement">
+    <h2>Problem Statement</h2>
+    <div class="statement-content mathjax"><p>The Fibonacci sequence is defined by the recurrence relation:</p>
+<blockquote>$F_n = F_{n - 1} + F_{n - 2}$, where $F_1 = 1$ and $F_2 = 1$.</blockquote>
+<p>Hence the first $12$ terms will be:</p>
+\begin{align}
+F_1 &amp;= 1\\
+F_2 &amp;= 1\\
+F_3 &amp;= 2\\
+F_4 &amp;= 3\\
+F_5 &amp;= 5\\
+F_6 &amp;= 8\\
+F_7 &amp;= 13\\
+F_8 &amp;= 21\\
+F_9 &amp;= 34\\
+F_{10} &amp;= 55\\
+F_{11} &amp;= 89\\
+F_{12} &amp;= 144
+\end{align}
+<p>The $12$th term, $F_{12}$, is the first term to contain three digits.</p>
+<p>What is the index of the first term in the Fibonacci sequence to contain $1000$ digits?</p></div>
+  </div>
+
+  <div class="problem-solution">
+    <h2>Solution</h2>
+    <div class="code-container">
+      <div class="highlight"><pre><span></span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;&lt;p&gt;The Fibonacci sequence is defined by the recurrence relation:&lt;/p&gt;</span>
+<span class="sd">&lt;blockquote&gt;$F_n = F_{n - 1} + F_{n - 2}$, where $F_1 = 1$ and $F_2 = 1$.&lt;/blockquote&gt;</span>
+<span class="sd">&lt;p&gt;Hence the first $12$ terms will be:&lt;/p&gt;</span>
+<span class="sd">\begin{align}</span>
+<span class="sd">F_1 &amp;amp;= 1\\</span>
+<span class="sd">F_2 &amp;amp;= 1\\</span>
+<span class="sd">F_3 &amp;amp;= 2\\</span>
+<span class="sd">F_4 &amp;amp;= 3\\</span>
+<span class="sd">F_5 &amp;amp;= 5\\</span>
+<span class="sd">F_6 &amp;amp;= 8\\</span>
+<span class="sd">F_7 &amp;amp;= 13\\</span>
+<span class="sd">F_8 &amp;amp;= 21\\</span>
+<span class="sd">F_9 &amp;amp;= 34\\</span>
+<span class="sd">F_{10} &amp;amp;= 55\\</span>
+<span class="sd">F_{11} &amp;amp;= 89\\</span>
+<span class="sd">F_{12} &amp;amp;= 144</span>
+<span class="sd">\end{align}</span>
+<span class="sd">&lt;p&gt;The $12$th term, $F_{12}$, is the first term to contain three digits.&lt;/p&gt;</span>
+<span class="sd">&lt;p&gt;What is the index of the first term in the Fibonacci sequence to contain $1000$ digits?&lt;/p&gt;&quot;&quot;&quot;</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">count</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1000</span><span class="p">:</span>
+        <span class="k">break</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+  </div>
+</div>
+</div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          &copy; 2025 Geo Kim. Built with Python for
+          Project Euler Solutions.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
