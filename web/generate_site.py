@@ -223,6 +223,31 @@ def generate_site():
     --font-monospace: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
 }
 
+/* Dark Mode */
+html.dark {
+  --primary-color: #58a6ff;
+  --header-color: #0d1117;
+  --secondary-color: #8b949e;
+  --bg-color: #0d1117;
+  --text-color: #c9d1d9;
+  --light-bg: #161b22;
+  --border-color: #30363d;
+  --color-red: #ff7b72;
+  --color-green: #3fb950;
+  --color-blue: #58a6ff;
+  --color-light-blue: #79c0ff;
+  --color-orange: #ffa657;
+  --color-dark-green: #238636;
+  --color-border-default: #30363d;
+  --color-text-link: #58a6ff;
+}
+
+html.dark .highlight pre {
+  background-color: #161b22;
+  color: #c9d1d9;
+  border-color: #30363d;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -616,6 +641,9 @@ pre {
           >
         </nav>
         <img class="site-logo" src="{{ site_config.base_url }}/assets/favicon/favicon-192x192.png" alt="Logo" />
+        <button id="dark-mode-toggle" aria-label="Toggle dark mode" style="margin-left: 20px; padding: 8px 12px;">
+            🌓 Toggle Dark Mode
+        </button>
       </div>
     </header>
 
@@ -631,6 +659,21 @@ pre {
         </p>
       </div>
     </footer>
+    <script>
+  const toggle = document.getElementById('dark-mode-toggle');
+  const html = document.documentElement;
+
+  // Apply saved mode on load
+  if (localStorage.getItem('theme') === 'dark') {
+    html.classList.add('dark');
+  }
+
+  toggle.addEventListener('click', () => {
+    html.classList.toggle('dark');
+    const isDark = html.classList.contains('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+</script>
   </body>
 </html>""")
 
