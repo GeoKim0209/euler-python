@@ -1,13 +1,12 @@
-
 .site-header .container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .site-logo {
-  width: 64px;
-  height: 64px;
+    width: 64px;
+    height: 64px;
 }
 
 :root {
@@ -31,27 +30,27 @@
 
 /* Dark Mode */
 html.dark {
-  --primary-color: #58a6ff;
-  --header-color: #0d1117;
-  --secondary-color: #8b949e;
-  --bg-color: #0d1117;
-  --text-color: #c9d1d9;
-  --light-bg: #161b22;
-  --border-color: #30363d;
-  --color-red: #ff7b72;
-  --color-green: #3fb950;
-  --color-blue: #58a6ff;
-  --color-light-blue: #79c0ff;
-  --color-orange: #ffa657;
-  --color-dark-green: #238636;
-  --color-border-default: #30363d;
-  --color-text-link: #58a6ff;
+    --primary-color: #58a6ff;
+    --header-color: #0d1117;
+    --secondary-color: #8b949e;
+    --bg-color: #0d1117;
+    --text-color: #c9d1d9;
+    --light-bg: #161b22;
+    --border-color: #30363d;
+    --color-red: #ff7b72;
+    --color-green: #3fb950;
+    --color-blue: #58a6ff;
+    --color-light-blue: #79c0ff;
+    --color-orange: #ffa657;
+    --color-dark-green: #238636;
+    --color-border-default: #30363d;
+    --color-text-link: #58a6ff;
 }
 
 html.dark .highlight pre {
-  background-color: #161b22;
-  color: #c9d1d9;
-  border-color: #30363d;
+    background-color: #161b22;
+    color: #c9d1d9;
+    border-color: #30363d;
 }
 
 * {
@@ -222,7 +221,7 @@ a:hover {
 
 .problem-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .problem-card h3 {
@@ -330,20 +329,20 @@ pre {
         flex-direction: column;
         align-items: flex-start;
     }
-    
+
     .site-nav {
         margin-top: 10px;
     }
-    
+
     .problem-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .problem-table th,
     .problem-table td {
         padding: 8px 10px;
     }
-    
+
     .problem-table {
         font-size: 0.95em;
     }
@@ -366,7 +365,6 @@ pre {
 .statement-content .MathJax_Display {
     margin: 1em 0;
 }
-
 
 pre { line-height: 125%; }
 td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
