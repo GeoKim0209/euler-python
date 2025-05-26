@@ -67,6 +67,62 @@ def strip_html_tags(text):
     return re.sub(r"<[^>]+>", "", text)
 
 
+# Extract executable code from solution file
+def extract_executable_code(content):
+    lines = content.split("\n")
+    executable_lines = []
+    in_docstring = False
+    docstring_delimiter = None
+
+    for line in lines:
+        stripped = line.strip()
+
+        # Skip single-line comments at the beginning of lines
+        if stripped.startswith("#"):
+            continue
+
+        # Handle docstrings
+        if not in_docstring:
+            # Check for start of docstring
+            if (
+                stripped.startswith('"""')
+                or stripped.startswith("'''")
+                or stripped.startswith('r"""')
+                or stripped.startswith("r'''")
+            ):
+                # Handle raw strings
+                if stripped.startswith("r"):
+                    docstring_delimiter = stripped[1:4]
+                else:
+                    docstring_delimiter = stripped[:3]
+                in_docstring = True
+                # Check if docstring ends on the same line
+                if stripped.count(docstring_delimiter) >= 2 and len(stripped) > len(
+                    docstring_delimiter
+                ):
+                    in_docstring = False
+                continue
+        else:
+            # We're inside a docstring, check for end
+            if docstring_delimiter in line:
+                in_docstring = False
+            continue
+
+        # Handle imports - replace euler imports with our embedded functions
+        if stripped.startswith("from euler import") or stripped.startswith("import euler"):
+            # Skip euler imports since we embed the functions directly
+            continue
+        elif stripped.startswith("import ") and "euler" in stripped:
+            # Handle other euler-related imports
+            continue
+
+        # Add the line if it's not empty or just whitespace
+        if stripped:
+            executable_lines.append(line)
+
+    return "\n".join(executable_lines)
+
+
 # Parse problem solutions
 def parse_solution_file(file_path):
     with open(file_path, "r") as f:
@@ -98,12 +154,16 @@ def parse_solution_file(file_path):
         title = " ".join(title.split()[:4])  # Take first few words
         title = title.split(".")[0].strip()
 
+    # Extract executable code (remove docstring and comments, handle imports)
+    executable_code = extract_executable_code(content)
+
     return {
         "number": get_problem_number(file_path.name),
         "filename": file_path.name,
         "title": title,
         "statement": statement,
         "solution": content,
+        "executable_code": executable_code,
     }
 
 
@@ -207,6 +267,15 @@ def generate_site():
                 css += "\n\n/* Extra styles */\n" + extra_css
 
         f.write(css)
+
+    # Copy Pyodide worker file for timeout functionality
+    worker_source = ROOT_DIR / "web" / "pyodide-worker.js"
+    worker_dest = OUTPUT_DIR / "pyodide-worker.js"
+    if os.path.exists(worker_source):
+        shutil.copy2(worker_source, worker_dest)
+        print(f"Copied Pyodide worker file to {worker_dest}")
+    else:
+        print(f"Warning: Pyodide worker file {worker_source} not found")
 
     # Parse Euler library functions
     def parse_euler_library():
@@ -315,6 +384,7 @@ def generate_site():
             prev_problem=prev_problem,
             next_problem=next_problem,
             highlighted_code=highlighted_code,
+            executable_code=problem["executable_code"],
         )
 
         with open(problem_dir / "index.html", "w") as f:

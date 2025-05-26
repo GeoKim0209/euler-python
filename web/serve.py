@@ -37,6 +37,12 @@ def main():
         def __init__(self, *args, **kwargs):
             super().__init__(*args, directory=str(DIRECTORY), **kwargs)
 
+        def end_headers(self):
+            # Add headers required for SharedArrayBuffer support (needed for Pyodide timeout functionality)
+            self.send_header("Cross-Origin-Opener-Policy", "same-origin")
+            self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
+            super().end_headers()
+
     with socketserver.TCPServer(("", PORT), Handler) as httpd:
         # Open browser
         webbrowser.open(f"http://localhost:{PORT}")

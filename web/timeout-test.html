@@ -3,145 +3,134 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}{{ site_config.title }}{% endblock %}</title>
-    <link
-      rel="stylesheet"
-      href="{{ site_config.base_url }}/assets/css/style.css"
-    />
-    <!-- Favicon links -->
-    <link
-      rel="icon"
-      type="image/png"
-      href="{{ site_config.base_url }}/assets/favicon/favicon.ico"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="{{ site_config.base_url }}/assets/favicon/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="{{ site_config.base_url }}/assets/favicon/favicon-16x16.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="48x48"
-      href="{{ site_config.base_url }}/assets/favicon/favicon-48x48.png"
-    />
-    <link
-      rel="apple-touch-icon"
-      href="{{ site_config.base_url }}/assets/favicon/apple-touch-icon.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="192x192"
-      href="{{ site_config.base_url }}/assets/favicon/favicon-192x192.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="512x512"
-      href="{{ site_config.base_url }}/assets/favicon/favicon-512x512.png"
-    />
-    <!-- End favicon links -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script>
-      window.MathJax = {
-        tex: {
-          inlineMath: [
-            ["$", "$"],
-            ["\(", "\)"],
-          ],
-          displayMath: [
-            ["$$", "$$"],
-            ["\[", "\]"],
-          ],
-          processEscapes: true,
-        },
-        options: {
-          ignoreHtmlClass: "no-mathjax",
-          processHtmlClass: "mathjax",
-        },
-        startup: {
-          pageReady: function () {
-            return MathJax.startup.defaultPageReady().then(function () {
-              // Force update math when the page loads
-              MathJax.typeset();
-            });
-          },
-        },
-      };
-    </script>
-    <script
-      id="MathJax-script"
-      async
-      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
-    ></script>
-
-    <!-- Pyodide for running Python in browser -->
-    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+    <title>Pyodide Timeout Test</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .test-container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+      }
+      .test-case {
+        margin-bottom: 30px;
+        padding: 20px;
+        border: 1px solid #e1e4e8;
+        border-radius: 8px;
+        background-color: #f6f8fa;
+      }
+      .test-case h3 {
+        margin-bottom: 15px;
+        color: #0366d6;
+      }
+      .test-code {
+        background-color: #f8f8f8;
+        border: 1px solid #e1e4e8;
+        border-radius: 4px;
+        padding: 10px;
+        margin: 10px 0;
+        font-family: monospace;
+        white-space: pre-wrap;
+      }
+    </style>
   </head>
   <body>
-    <header class="site-header">
-      <div class="container">
-        <a class="site-title" href="{{ site_config.base_url }}/"
-          >{{ site_config.title }}</a
-        >
-        <nav class="site-nav">
-          <a href="{{ site_config.base_url }}/">Home</a>
-          <a href="{{ site_config.base_url }}/euler-library/">Euler Library</a>
-          <a href="{{ site_config.github_repo }}" target="_blank" rel="noopener"
-            >GitHub</a
-          >
-        </nav>
-        <img
-          class="site-logo"
-          src="{{ site_config.base_url }}/assets/favicon/favicon-192x192.png"
-          alt="Logo"
-        />
+    <div class="test-container">
+      <h1>Pyodide Timeout Test</h1>
+      <p>
+        This page tests the timeout functionality for Pyodide code execution.
+        Each test case should demonstrate different timeout scenarios.
+      </p>
+
+      <div class="test-case">
+        <h3>Test 1: Infinite Loop (Should timeout after 5 seconds)</h3>
+        <div class="test-code">while True: pass</div>
         <button
-          id="dark-mode-toggle"
-          aria-label="Toggle dark mode"
-          style="margin-left: 20px; padding: 8px 12px"
+          class="run-code-btn"
+          data-code="while True:&#10;    pass"
+          data-output="output-1"
+          onclick="runPythonCodeFromButton(this)"
+          disabled
         >
-          🌓 Toggle Dark Mode
+          Loading Python...
         </button>
+        <div id="output-1" class="code-output"></div>
       </div>
-    </header>
 
-    <main class="page-content">
-      <div class="container">{% block content %}{% endblock %}</div>
-    </main>
-
-    <footer class="site-footer">
-      <div class="container">
-        <p>
-          &copy; {{ current_year }} {{ site_config.author }}. Built with Python
-          for Project Euler Solutions.
-        </p>
+      <div class="test-case">
+        <h3>Test 2: Long Running Loop (Should timeout after 5 seconds)</h3>
+        <div class="test-code">
+          for i in range(10**9): if i % 10**6 == 0: print(f"Progress: {i}")
+          print("Done!")
+        </div>
+        <button
+          class="run-code-btn"
+          data-code='for i in range(10**9):&#10;    if i % 10**6 == 0:&#10;        print(f"Progress: {i}")&#10;print("Done!")'
+          data-output="output-2"
+          onclick="runPythonCodeFromButton(this)"
+          disabled
+        >
+          Loading Python...
+        </button>
+        <div id="output-2" class="code-output"></div>
       </div>
-    </footer>
-    <script>
-      const toggle = document.getElementById("dark-mode-toggle");
-      const html = document.documentElement;
 
-      // Apply saved mode on load
-      if (localStorage.getItem("theme") === "dark") {
-        html.classList.add("dark");
-      }
+      <div class="test-case">
+        <h3>Test 3: Quick Execution (Should complete normally)</h3>
+        <div class="test-code">
+          print("Hello, World!") for i in range(5): print(f"Count: {i}")
+          print("Finished!")
+        </div>
+        <button
+          class="run-code-btn"
+          data-code='print("Hello, World!")&#10;for i in range(5):&#10;    print(f"Count: {i}")&#10;print("Finished!")'
+          data-output="output-3"
+          onclick="runPythonCodeFromButton(this)"
+          disabled
+        >
+          Loading Python...
+        </button>
+        <div id="output-3" class="code-output"></div>
+      </div>
 
-      toggle.addEventListener("click", () => {
-        html.classList.toggle("dark");
-        const isDark = html.classList.contains("dark");
-        localStorage.setItem("theme", isDark ? "dark" : "light");
-      });
-    </script>
+      <div class="test-case">
+        <h3>Test 4: Recursive Function (Should timeout)</h3>
+        <div class="test-code">
+          def infinite_recursion(): return infinite_recursion()
+          infinite_recursion()
+        </div>
+        <button
+          class="run-code-btn"
+          data-code="def infinite_recursion():&#10;    return infinite_recursion()&#10;&#10;infinite_recursion()"
+          data-output="output-4"
+          onclick="runPythonCodeFromButton(this)"
+          disabled
+        >
+          Loading Python...
+        </button>
+        <div id="output-4" class="code-output"></div>
+      </div>
 
+      <div class="test-case">
+        <h3>Test 5: Error Case (Should show error immediately)</h3>
+        <div class="test-code">
+          print("Before error") x = 1 / 0 # Division by zero print("After
+          error")
+        </div>
+        <button
+          class="run-code-btn"
+          data-code='print("Before error")&#10;x = 1 / 0  # Division by zero&#10;print("After error")'
+          data-output="output-5"
+          onclick="runPythonCodeFromButton(this)"
+          disabled
+        >
+          Loading Python...
+        </button>
+        <div id="output-5" class="code-output"></div>
+      </div>
+    </div>
+
+    <!-- Include the same Pyodide scripts as base.html -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
     <script>
       // Pyodide Web Worker with timeout support
       let pyodideWorker = null;
@@ -173,9 +162,7 @@
           interruptBuffer = new Uint8Array(new SharedArrayBuffer(1));
 
           // Create and initialize the worker
-          pyodideWorker = new Worker(
-            "{{ site_config.base_url }}/pyodide-worker.js"
-          );
+          pyodideWorker = new Worker("./pyodide-worker.js");
 
           // Set up worker message handling
           pyodideWorker.addEventListener("message", handleWorkerMessage);
