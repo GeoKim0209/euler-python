@@ -3,42 +3,78 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>
-      Largest Product in a Grid | Project Euler Solutions
-    </title>
+    <title>Largest Product in a Grid | Project Euler Solutions</title>
     <link
       rel="stylesheet"
       href="/euler-python/assets/css/style.css"
     />
     <!-- Favicon links -->
-    <link rel="icon" type="image/png" href="/euler-python/assets/favicon/favicon.ico" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/euler-python/assets/favicon/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/euler-python/assets/favicon/favicon-16x16.png" />
-    <link rel="icon" type="image/png" sizes="48x48" href="/euler-python/assets/favicon/favicon-48x48.png" />
-    <link rel="apple-touch-icon" href="/euler-python/assets/favicon/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="/euler-python/assets/favicon/favicon-192x192.png" />
-    <link rel="icon" type="image/png" sizes="512x512" href="/euler-python/assets/favicon/favicon-512x512.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/euler-python/assets/favicon/favicon.ico"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/euler-python/assets/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/euler-python/assets/favicon/favicon-16x16.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="48x48"
+      href="/euler-python/assets/favicon/favicon-48x48.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="/euler-python/assets/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="/euler-python/assets/favicon/favicon-192x192.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="512x512"
+      href="/euler-python/assets/favicon/favicon-512x512.png"
+    />
     <!-- End favicon links -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script>
       window.MathJax = {
         tex: {
-          inlineMath: [['$', '$'], ['\(', '\)']],
-          displayMath: [['$$', '$$'], ['\[', '\]']],
-          processEscapes: true
+          inlineMath: [
+            ["$", "$"],
+            ["\(", "\)"],
+          ],
+          displayMath: [
+            ["$$", "$$"],
+            ["\[", "\]"],
+          ],
+          processEscapes: true,
         },
         options: {
-          ignoreHtmlClass: 'no-mathjax',
-          processHtmlClass: 'mathjax'
+          ignoreHtmlClass: "no-mathjax",
+          processHtmlClass: "mathjax",
         },
         startup: {
-          pageReady: function() {
-            return MathJax.startup.defaultPageReady().then(function() {
+          pageReady: function () {
+            return MathJax.startup.defaultPageReady().then(function () {
               // Force update math when the page loads
               MathJax.typeset();
             });
-          }
-        }
+          },
+        },
       };
     </script>
     <script
@@ -46,6 +82,9 @@
       async
       src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
     ></script>
+
+    <!-- Pyodide for running Python in browser -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
   </head>
   <body>
     <header class="site-header">
@@ -56,16 +95,21 @@
         <nav class="site-nav">
           <a href="/euler-python/">Home</a>
           <a href="/euler-python/euler-library/">Euler Library</a>
-          <a
-            href="https://github.com/GeoKim0209/euler-python"
-            target="_blank"
-            rel="noopener"
+          <a href="https://github.com/GeoKim0209/euler-python" target="_blank" rel="noopener"
             >GitHub</a
           >
         </nav>
-        <img class="site-logo" src="/euler-python/assets/favicon/favicon-192x192.png" alt="Logo" />
-        <button id="dark-mode-toggle" aria-label="Toggle dark mode" style="margin-left: 20px; padding: 8px 12px;">
-            🌓 Toggle Dark Mode
+        <img
+          class="site-logo"
+          src="/euler-python/assets/favicon/favicon-192x192.png"
+          alt="Logo"
+        />
+        <button
+          id="dark-mode-toggle"
+          aria-label="Toggle dark mode"
+          style="margin-left: 20px; padding: 8px 12px"
+        >
+          🌓 Toggle Dark Mode
         </button>
       </div>
     </header>
@@ -77,15 +121,13 @@
     <a href="/euler-python/" class="home-link">← Home</a>
     <h1>Problem 11: Largest Product in a Grid</h1>
     <div class="nav-buttons">
-            
+      
       <a
         href="/euler-python/problems/problem-10/"
         class="nav-button prev-button"
         >← Previous</a
       >
-      
-      
-      
+       
       <a
         href="/euler-python/problems/problem-12/"
         class="nav-button next-button"
@@ -125,8 +167,7 @@
 
   <div class="problem-solution">
     <h2>Solution</h2>
-    <div class="code-container">
-      <div class="highlight"><pre><span></span><span class="c1"># Largest Product in a Grid</span>
+    <div class="code-container"><div class="highlight"><pre><span></span><span class="c1"># Largest Product in a Grid</span>
 
 <span class="sa">r</span><span class="sd">&quot;&quot;&quot;&lt;p&gt;In the $20 \times 20$ grid below, four numbers along a diagonal line have been marked in red.&lt;/p&gt;</span>
 <span class="sd">&lt;p class=&quot;monospace center&quot;&gt;</span>
@@ -273,7 +314,109 @@
 
 <span class="nb">print</span><span class="p">(</span><span class="n">maxNum</span><span class="p">)</span>
 </pre></div>
+</div>
 
+    <div class="code-execution">
+      <button
+        class="run-code-btn"
+        data-code="def print_grid(grid):
+    for row in grid:
+        print(&#34; &#34;.join(row))
+def multiply_list(s: list):
+    product = 1
+    for i in s:
+        product = product * int(i)
+    return product
+string = &#34;&#34;&#34;08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
+49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00
+81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65
+52 70 95 23 04 60 11 42 69 24 68 56 01 32 56 71 37 02 36 91
+22 31 16 71 51 67 63 89 41 92 36 54 22 40 40 28 66 33 13 80
+24 47 32 60 99 03 45 02 44 75 33 53 78 36 84 20 35 17 12 50
+32 98 81 28 64 23 67 10 26 38 40 67 59 54 70 66 18 38 64 70
+67 26 20 68 02 62 12 20 95 63 94 39 63 08 40 91 66 49 94 21
+24 55 58 05 66 73 99 26 97 17 78 78 96 83 14 88 34 89 63 72
+21 36 23 09 75 00 76 44 20 45 35 14 00 61 33 97 34 31 33 95
+78 17 53 28 22 75 31 67 15 94 03 80 04 62 16 14 09 53 56 92
+16 39 05 42 96 35 31 47 55 58 88 24 00 17 54 24 36 29 85 57
+86 56 00 48 35 71 89 07 05 44 44 37 44 60 21 58 51 54 17 58
+19 80 81 68 05 94 47 69 28 73 92 13 86 52 17 77 04 89 55 40
+04 52 08 83 97 35 99 16 07 97 57 32 16 26 26 79 33 27 98 66
+88 36 68 87 57 62 20 72 03 46 33 67 46 55 12 32 63 93 53 69
+04 42 16 73 38 25 39 11 24 94 72 18 08 46 29 32 40 62 76 36
+20 69 36 41 72 30 23 88 34 62 99 69 82 67 59 85 74 04 36 16
+20 73 35 29 78 31 90 01 74 31 49 71 48 86 81 16 23 57 05 54
+01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48&#34;&#34;&#34;
+row_strings = string.split(&#34;\n&#34;)
+grid = []
+for row_string in row_strings:
+    grid.append(row_string.split())
+maxNum = 0
+max_value = 0
+n = 4
+for k in range(len(grid)):
+    s = grid[k]
+    for i in range(len(s)):
+        try:
+            if multiply_list(s[i : i + n]) &gt; max_value:
+                max_value = multiply_list(s[i : i + n])
+        except:
+            pass
+        if max_value &gt; maxNum:
+            maxNum = max_value
+max_value = 0
+n = 4
+for k in range(len(grid)):
+    s = grid[k]
+    for i in range(len(s)):
+        try:
+            pair = [grid[x][i] for x in range(k, k + n)]
+            if multiply_list(pair) &gt; max_value:
+                max_value = multiply_list(pair)
+        except:
+            pass
+        if max_value &gt; maxNum:
+            maxNum = max_value
+max_value = 0
+n = 4
+for k in range(len(grid)):
+    s = grid[k]
+    for i in range(len(s)):
+        try:
+            pair = []
+            for x in range(n):
+                assert k - x &gt;= 0
+                pair.append(grid[k - x][i + x])
+            if multiply_list(pair) &gt; max_value:
+                max_value = multiply_list(pair)
+        except:
+            pass
+        if max_value &gt; maxNum:
+            maxNum = max_value
+max_value = 0
+n = 4
+for k in range(len(grid)):
+    s = grid[k]
+    for i in range(len(s)):
+        try:
+            pair = []
+            for x in range(n):
+                assert k + x &lt; len(grid)
+                pair.append(grid[k + x][i + x])
+            if multiply_list(pair) &gt; max_value:
+                max_value = multiply_list(pair)
+        except:
+            pass
+        if max_value &gt; maxNum:
+            maxNum = max_value
+print(maxNum)"
+        data-output="output-11"
+        onclick="runPythonCodeFromButton(this)"
+        disabled
+      >
+        Loading Python...
+      </button>
+      <div id="output-11" class="code-output"></div>
     </div>
   </div>
 </div>
@@ -283,25 +426,229 @@
     <footer class="site-footer">
       <div class="container">
         <p>
-          &copy; 2025 Geo Kim. Built with Python for
-          Project Euler Solutions.
+          &copy; 2025 Geo Kim. Built with Python
+          for Project Euler Solutions.
         </p>
       </div>
     </footer>
     <script>
-  const toggle = document.getElementById('dark-mode-toggle');
-  const html = document.documentElement;
+      const toggle = document.getElementById("dark-mode-toggle");
+      const html = document.documentElement;
 
-  // Apply saved mode on load
-  if (localStorage.getItem('theme') === 'dark') {
-    html.classList.add('dark');
-  }
+      // Apply saved mode on load
+      if (localStorage.getItem("theme") === "dark") {
+        html.classList.add("dark");
+      }
 
-  toggle.addEventListener('click', () => {
-    html.classList.toggle('dark');
-    const isDark = html.classList.contains('dark');
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-  });
-</script>
+      toggle.addEventListener("click", () => {
+        html.classList.toggle("dark");
+        const isDark = html.classList.contains("dark");
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+      });
+    </script>
+
+    <script>
+      // Pyodide Web Worker with timeout support
+      let pyodideWorker = null;
+      let pyodideReady = false;
+      let interruptBuffer = null;
+      let requestCounter = 0;
+      let pendingRequests = new Map();
+
+      // Default timeout in milliseconds (5 seconds)
+      const DEFAULT_TIMEOUT = 5000;
+
+      // Check if SharedArrayBuffer is available
+      function isSharedArrayBufferSupported() {
+        return typeof SharedArrayBuffer !== "undefined";
+      }
+
+      async function initPyodide() {
+        if (pyodideReady) return;
+
+        try {
+          // Check for SharedArrayBuffer support
+          if (!isSharedArrayBufferSupported()) {
+            throw new Error(
+              "SharedArrayBuffer not supported. Timeout functionality requires HTTPS and proper headers."
+            );
+          }
+
+          // Create interrupt buffer for timeout functionality
+          interruptBuffer = new Uint8Array(new SharedArrayBuffer(1));
+
+          // Create and initialize the worker
+          pyodideWorker = new Worker(
+            "/euler-python/pyodide-worker.js"
+          );
+
+          // Set up worker message handling
+          pyodideWorker.addEventListener("message", handleWorkerMessage);
+
+          // Send interrupt buffer to worker
+          pyodideWorker.postMessage({
+            type: "set-interrupt-buffer",
+            data: { interruptBuffer },
+          });
+
+          // Initialize Pyodide in worker
+          pyodideWorker.postMessage({ type: "init" });
+        } catch (error) {
+          console.error("Failed to initialize Pyodide worker:", error);
+
+          // Fallback: show error on all buttons
+          document.querySelectorAll(".run-code-btn").forEach((btn) => {
+            btn.textContent = "Python unavailable";
+            btn.disabled = true;
+            btn.title = error.message;
+          });
+        }
+      }
+
+      function handleWorkerMessage(event) {
+        const { type, requestId, result, error, isTimeout } = event.data;
+
+        switch (type) {
+          case "pyodide-ready":
+            pyodideReady = true;
+            console.log("Pyodide worker initialized successfully");
+
+            // Enable all run buttons
+            document.querySelectorAll(".run-code-btn").forEach((btn) => {
+              btn.disabled = false;
+              btn.textContent = "Run Code";
+            });
+            break;
+
+          case "pyodide-error":
+            console.error("Pyodide worker error:", error);
+            document.querySelectorAll(".run-code-btn").forEach((btn) => {
+              btn.textContent = "Failed to load Python";
+              btn.disabled = true;
+            });
+            break;
+
+          case "execution-success":
+            if (pendingRequests.has(requestId)) {
+              const { resolve, timeoutId } = pendingRequests.get(requestId);
+              clearTimeout(timeoutId);
+              pendingRequests.delete(requestId);
+              resolve({ success: true, result });
+            }
+            break;
+
+          case "execution-error":
+            if (pendingRequests.has(requestId)) {
+              const { reject, timeoutId } = pendingRequests.get(requestId);
+              clearTimeout(timeoutId);
+              pendingRequests.delete(requestId);
+              reject({ success: false, error, isTimeout });
+            }
+            break;
+        }
+      }
+
+      function interruptExecution() {
+        if (interruptBuffer) {
+          // 2 stands for SIGINT
+          interruptBuffer[0] = 2;
+        }
+      }
+
+      async function runPythonCodeWithTimeout(code, timeout = DEFAULT_TIMEOUT) {
+        if (!pyodideReady) {
+          throw new Error("Pyodide not ready");
+        }
+
+        const requestId = ++requestCounter;
+
+        return new Promise((resolve, reject) => {
+          // Set up timeout
+          const timeoutId = setTimeout(() => {
+            if (pendingRequests.has(requestId)) {
+              pendingRequests.delete(requestId);
+              interruptExecution();
+              reject({
+                success: false,
+                error: `Code execution timed out after ${
+                  timeout / 1000
+                } seconds`,
+                isTimeout: true,
+              });
+            }
+          }, timeout);
+
+          // Store request info
+          pendingRequests.set(requestId, { resolve, reject, timeoutId });
+
+          // Clear interrupt buffer and send code to worker
+          if (interruptBuffer) {
+            interruptBuffer[0] = 0;
+          }
+
+          pyodideWorker.postMessage({
+            type: "run-code",
+            data: { code, requestId },
+          });
+        });
+      }
+
+      async function runPythonCode(code, outputElementId) {
+        const outputElement = document.getElementById(outputElementId);
+        const runButton = document.querySelector(
+          `[data-output="${outputElementId}"]`
+        );
+
+        if (!pyodideReady) {
+          outputElement.innerHTML =
+            '<div class="output-loading">Initializing Python environment...</div>';
+          runButton.disabled = true;
+          runButton.textContent = "Loading...";
+          await initPyodide();
+
+          // Wait a bit for initialization
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+        }
+
+        try {
+          runButton.disabled = true;
+          runButton.textContent = "Running...";
+          outputElement.innerHTML =
+            '<div class="output-loading">Running code...</div>';
+
+          const result = await runPythonCodeWithTimeout(code);
+
+          if (result.result && result.result.trim()) {
+            outputElement.innerHTML = `<div class="output-success"><strong>Output:</strong><pre>${result.result}</pre></div>`;
+          } else {
+            outputElement.innerHTML =
+              '<div class="output-info">Code executed successfully (no output)</div>';
+          }
+        } catch (error) {
+          if (error.isTimeout) {
+            outputElement.innerHTML = `<div class="output-error"><strong>Timeout Error:</strong><pre>${error.error}</pre><div class="timeout-info">The code took too long to execute and was terminated to prevent browser hang.</div></div>`;
+          } else {
+            outputElement.innerHTML = `<div class="output-error"><strong>Error:</strong><pre>${
+              error.error || error.message
+            }</pre></div>`;
+          }
+        } finally {
+          runButton.disabled = false;
+          runButton.textContent = "Run Code";
+        }
+      }
+
+      function runPythonCodeFromButton(button) {
+        const code = button.getAttribute("data-code");
+        const outputId = button.getAttribute("data-output");
+        runPythonCode(code, outputId);
+      }
+
+      // Initialize Pyodide when the page loads (in background)
+      document.addEventListener("DOMContentLoaded", () => {
+        // Start loading Pyodide in the background
+        initPyodide();
+      });
+    </script>
   </body>
 </html>
