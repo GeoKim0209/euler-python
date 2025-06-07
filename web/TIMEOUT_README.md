@@ -5,10 +5,10 @@ This implementation adds timeout support to prevent infinite loops and browser h
 ## Features
 
 - **5-second default timeout**: Code execution is automatically terminated after 5 seconds
-- **Interrupt-based termination**: Uses Pyodide's interrupt system with SharedArrayBuffer
+- **Worker termination**: Uses worker termination to stop runaway code execution
 - **Web Worker isolation**: Python code runs in a separate worker thread
 - **User-friendly error messages**: Clear timeout notifications with helpful context
-- **Graceful fallback**: Handles browsers without SharedArrayBuffer support
+- **Universal compatibility**: Works on all modern browsers and hosting platforms
 
 ## Implementation Details
 
@@ -24,22 +24,22 @@ This implementation adds timeout support to prevent infinite loops and browser h
 ```
 Main Thread                    Web Worker
      |                              |
-     |-- SharedArrayBuffer ---------|
-     |                              |
      |-- Start timeout timer        |
      |-- Send code to worker ------>|-- Execute Python code
-     |                              |-- Check interrupt buffer
+     |                              |
      |-- Timeout expires             |
-     |-- Set interrupt signal ------>|-- Receive interrupt
-     |-- Display timeout error       |-- Raise KeyboardInterrupt
+     |-- Terminate worker ---------->|-- Worker terminated
+     |-- Display timeout error       |
+     |-- Recreate worker for         |
+     |   future use                  |
 ```
 
 ### Key Components
 
-#### 1. Interrupt Buffer
-- Uses `SharedArrayBuffer` to communicate between main thread and worker
-- Value `0`: Normal execution
-- Value `2`: SIGINT (interrupt signal)
+#### 1. Worker Termination
+- Uses `Worker.terminate()` to forcefully stop code execution
+- Immediate termination of runaway processes
+- Worker recreation for subsequent executions
 
 #### 2. Timeout Management
 - Default 5-second timeout per execution
@@ -49,26 +49,20 @@ Main Thread                    Web Worker
 #### 3. Error Handling
 - Distinguishes between timeout errors and regular Python errors
 - Special styling for timeout messages
-- Graceful degradation when SharedArrayBuffer is unavailable
+- Universal compatibility across all browsers and hosting platforms
 
 ## Browser Requirements
 
 ### Required for Full Functionality
-- **SharedArrayBuffer support**: Required for timeout functionality
-- **HTTPS or localhost**: SharedArrayBuffer requires secure context
-- **Proper headers**: Server must set appropriate COOP/COEP headers
+- **Modern browser with Web Worker support**: All major browsers since 2012
+- **JavaScript enabled**: Required for all functionality
+- **No special headers needed**: Works on any hosting platform including GitHub Pages
 
-### Headers Required for SharedArrayBuffer
-```
-Cross-Origin-Opener-Policy: same-origin
-Cross-Origin-Embedder-Policy: require-corp
-```
-
-### Fallback Behavior
-If SharedArrayBuffer is not available:
-- Buttons show "Python unavailable"
-- Error message explains the requirement
-- No code execution is attempted
+### Compatibility
+- ✅ **GitHub Pages**: Full compatibility
+- ✅ **Netlify/Vercel**: Full compatibility  
+- ✅ **Any static hosting**: Full compatibility
+- ✅ **Local development**: Full compatibility
 
 ## Usage
 
@@ -108,38 +102,42 @@ Timeout Error: Code execution timed out after 5 seconds
 The code took too long to execute and was terminated to prevent browser hang.
 ```
 
-### SharedArrayBuffer Not Supported
+### Worker Initialization Error
 ```
 Python unavailable
-SharedArrayBuffer not supported. Timeout functionality requires HTTPS and proper headers.
+Failed to initialize Python environment. Please refresh the page and try again.
 ```
 
 ## Troubleshooting
 
 ### Common Issues
 
-1. **"SharedArrayBuffer not supported"**
-   - Ensure HTTPS is used (or localhost for development)
-   - Check that proper COOP/COEP headers are set
-   - Verify browser supports SharedArrayBuffer
-
-2. **Timeouts not working**
+1. **Timeouts not working**
    - Check browser console for worker errors
    - Verify `pyodide-worker.js` is accessible
-   - Ensure interrupt buffer is properly initialized
+   - Ensure worker is being created successfully
 
-3. **Worker fails to load**
+2. **Worker fails to load**
    - Check file path to `pyodide-worker.js`
    - Verify CORS settings allow worker loading
    - Check browser console for detailed errors
 
-### Development Server Setup
-For local development, ensure your server sets the required headers. Example for Python's http.server:
+3. **Slow performance after timeouts**
+   - This is expected as workers are recreated after termination
+   - Worker initialization takes 1-2 seconds
+   - Consider increasing timeout for complex calculations
 
-```python
-# Add headers for SharedArrayBuffer support
-self.send_header('Cross-Origin-Opener-Policy', 'same-origin')
-self.send_header('Cross-Origin-Embedder-Policy', 'require-corp')
+### Development Server Setup
+No special server configuration needed. Any static file server will work:
+
+```bash
+# Python built-in server
+python -m http.server 8000
+
+# Node.js serve
+npx serve .
+
+# Any static hosting platform
 ```
 
 ## Performance Considerations
@@ -147,6 +145,7 @@ self.send_header('Cross-Origin-Embedder-Policy', 'require-corp')
 - **Worker overhead**: Initial setup takes ~1-2 seconds
 - **Memory usage**: Each worker maintains its own Pyodide instance
 - **Timeout precision**: Actual timeout may vary by ~100ms due to JavaScript timing
+- **Worker recreation**: After timeout, new worker creation adds ~1-2 second delay
 - **Cleanup**: Automatic cleanup prevents memory leaks from abandoned requests
 
 ## Future Enhancements
