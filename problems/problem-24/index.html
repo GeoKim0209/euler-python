@@ -250,50 +250,37 @@ print(i + 1, &#34;&#34;.join(x))"
       // Pyodide Web Worker with timeout support
       let pyodideWorker = null;
       let pyodideReady = false;
-      let interruptBuffer = null;
       let requestCounter = 0;
       let pendingRequests = new Map();
+      let isWorkerInitializing = false;
 
       // Default timeout in milliseconds (5 seconds)
       const DEFAULT_TIMEOUT = 5000;
 
-      // Check if SharedArrayBuffer is available
-      function isSharedArrayBufferSupported() {
-        return typeof SharedArrayBuffer !== "undefined";
+      async function createWorker() {
+        // Create and initialize the worker
+        const worker = new Worker(
+          "/euler-python/pyodide-worker.js"
+        );
+
+        // Set up worker message handling
+        worker.addEventListener("message", handleWorkerMessage);
+
+        // Initialize Pyodide in worker
+        worker.postMessage({ type: "init" });
+
+        return worker;
       }
 
       async function initPyodide() {
-        if (pyodideReady) return;
+        if (pyodideReady || isWorkerInitializing) return;
 
         try {
-          // Check for SharedArrayBuffer support
-          if (!isSharedArrayBufferSupported()) {
-            throw new Error(
-              "SharedArrayBuffer not supported. Timeout functionality requires HTTPS and proper headers."
-            );
-          }
-
-          // Create interrupt buffer for timeout functionality
-          interruptBuffer = new Uint8Array(new SharedArrayBuffer(1));
-
-          // Create and initialize the worker
-          pyodideWorker = new Worker(
-            "/euler-python/pyodide-worker.js"
-          );
-
-          // Set up worker message handling
-          pyodideWorker.addEventListener("message", handleWorkerMessage);
-
-          // Send interrupt buffer to worker
-          pyodideWorker.postMessage({
-            type: "set-interrupt-buffer",
-            data: { interruptBuffer },
-          });
-
-          // Initialize Pyodide in worker
-          pyodideWorker.postMessage({ type: "init" });
+          isWorkerInitializing = true;
+          pyodideWorker = await createWorker();
         } catch (error) {
           console.error("Failed to initialize Pyodide worker:", error);
+          isWorkerInitializing = false;
 
           // Fallback: show error on all buttons
           document.querySelectorAll(".run-code-btn").forEach((btn) => {
@@ -304,12 +291,41 @@ print(i + 1, &#34;&#34;.join(x))"
         }
       }
 
+      async function recreateWorker() {
+        console.log("Recreating Pyodide worker...");
+
+        // Terminate old worker if it exists
+        if (pyodideWorker) {
+          pyodideWorker.terminate();
+        }
+
+        // Reset state
+        pyodideReady = false;
+        isWorkerInitializing = false;
+
+        // Create new worker
+        await initPyodide();
+
+        // Wait for worker to be ready
+        return new Promise((resolve) => {
+          const checkReady = () => {
+            if (pyodideReady) {
+              resolve();
+            } else {
+              setTimeout(checkReady, 100);
+            }
+          };
+          checkReady();
+        });
+      }
+
       function handleWorkerMessage(event) {
         const { type, requestId, result, error, isTimeout } = event.data;
 
         switch (type) {
           case "pyodide-ready":
             pyodideReady = true;
+            isWorkerInitializing = false;
             console.log("Pyodide worker initialized successfully");
 
             // Enable all run buttons
@@ -321,6 +337,7 @@ print(i + 1, &#34;&#34;.join(x))"
 
           case "pyodide-error":
             console.error("Pyodide worker error:", error);
+            isWorkerInitializing = false;
             document.querySelectorAll(".run-code-btn").forEach((btn) => {
               btn.textContent = "Failed to load Python";
               btn.disabled = true;
@@ -347,13 +364,6 @@ print(i + 1, &#34;&#34;.join(x))"
         }
       }
 
-      function interruptExecution() {
-        if (interruptBuffer) {
-          // 2 stands for SIGINT
-          interruptBuffer[0] = 2;
-        }
-      }
-
       async function runPythonCodeWithTimeout(code, timeout = DEFAULT_TIMEOUT) {
         if (!pyodideReady) {
           throw new Error("Pyodide not ready");
@@ -363,10 +373,17 @@ print(i + 1, &#34;&#34;.join(x))"
 
         return new Promise((resolve, reject) => {
           // Set up timeout
-          const timeoutId = setTimeout(() => {
+          const timeoutId = setTimeout(async () => {
             if (pendingRequests.has(requestId)) {
               pendingRequests.delete(requestId);
-              interruptExecution();
+
+              // Terminate the worker to stop execution
+              console.log("Timeout reached, terminating worker");
+              if (pyodideWorker) {
+                pyodideWorker.terminate();
+              }
+
+              // Reject with timeout error
               reject({
                 success: false,
                 error: `Code execution timed out after ${
@@ -374,17 +391,16 @@ print(i + 1, &#34;&#34;.join(x))"
                 } seconds`,
                 isTimeout: true,
               });
+
+              // Recreate worker for future use (don't await to avoid blocking)
+              recreateWorker().catch(console.error);
             }
           }, timeout);
 
           // Store request info
           pendingRequests.set(requestId, { resolve, reject, timeoutId });
 
-          // Clear interrupt buffer and send code to worker
-          if (interruptBuffer) {
-            interruptBuffer[0] = 0;
-          }
-
+          // Send code to worker
           pyodideWorker.postMessage({
             type: "run-code",
             data: { code, requestId },

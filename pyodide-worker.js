@@ -1,7 +1,6 @@
 // Pyodide Web Worker for handling Python code execution with timeout support
 let pyodide = null;
 let pyodideReady = false;
-let interruptBuffer = null;
 
 // Initialize Pyodide in the worker
 async function initPyodide() {
@@ -98,13 +97,6 @@ self.addEventListener("message", async (event) => {
       await initPyodide();
       break;
 
-    case 'set-interrupt-buffer':
-      interruptBuffer = data.interruptBuffer;
-      if (pyodide) {
-        pyodide.setInterruptBuffer(interruptBuffer);
-      }
-      break;
-
     case 'run-code':
       if (!pyodideReady) {
         self.postMessage({
@@ -116,11 +108,6 @@ self.addEventListener("message", async (event) => {
       }
 
       try {
-        // Clear interrupt buffer
-        if (interruptBuffer) {
-          interruptBuffer[0] = 0;
-        }
-
         // Clear any previous output and start capturing
         pyodide.runPython(`
 output_capture.start_capture()
@@ -141,15 +128,11 @@ output_capture.stop_capture()
         });
 
       } catch (error) {
-        // Check if this was a KeyboardInterrupt (timeout)
-        const isTimeout = error.message.includes('KeyboardInterrupt') || 
-                         error.message.includes('interrupted');
-        
         self.postMessage({
           type: 'execution-error',
           requestId: data.requestId,
           error: error.message,
-          isTimeout: isTimeout
+          isTimeout: false
         });
       }
       break;
