@@ -14,3 +14,4 @@ for i in range(1, 1000):
     elif i % 3 == 0:
         x = x + i
 print(x)
+
